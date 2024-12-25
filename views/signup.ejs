@@ -1,4 +1,7 @@
 <h1>Signup</h1>
+<% if (error) { %>
+    <p style="color: red;"><%= error %></p>
+<% } %>
 <form action="/auth/signup" method="post">
     <label for="user_name">Username:</label>
     <input type="text" id="user_name" name="user_name" required><br>
