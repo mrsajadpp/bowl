@@ -1,17 +1,65 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    /* Global Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        background-color: #f4f4f4;
+        color: #333;
+        padding: 20px;
+    }
+
+    h1,
+    h2,
+    h3 {
+        color: #0078e8;
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        margin-top: 20px;
+    }
+
+    p {
+        margin: 5px 0 15px;
+    }
+
+    p.error {
+        color: red;
+        font-weight: bold;
+    }
+</style>
 <h1>Email Verification</h1>
 
 <% if (error) { %>
-    <p style="color: red; font-size: 18px; font-weight: bold; text-align: center; padding: 10px; border: 1px solid red; background-color: #f8d7da; border-radius: 5px; max-width: 600px; margin: 20px auto;">
+    <p
+        style="color: red; font-size: 18px; font-weight: bold; text-align: center; padding: 10px; border: 1px solid red; background-color: #f8d7da; border-radius: 5px; max-width: 600px; margin: 20px auto;">
         <%= error %>
     </p>
-<% } else if (message) { %>
-    <p style="color: green; font-size: 18px; font-weight: bold; text-align: center; padding: 10px; border: 1px solid green; background-color: #d4edda; border-radius: 5px; max-width: 600px; margin: 20px auto;">
-        <%= message %>
-    </p>
+    <% } else if (message) { %>
+        <p
+            style="color: green; font-size: 18px; font-weight: bold; text-align: center; padding: 10px; border: 1px solid green; background-color: #d4edda; border-radius: 5px; max-width: 600px; margin: 20px auto;">
+            <%= message %>
+        </p>
 
-    <script>
-        setTimeout(() => {
-            window.location.href = '/auth/login';
-        }, 2000);
-    </script>
-<% } %>
+        <script>
+            setTimeout(() => {
+                window.location.href = '/auth/login';
+            }, 2000);
+        </script>
+        <% } %>
