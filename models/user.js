@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
     profile_url: {
         type: String,
         required: true
+    },
+    sex: {
+        type: String,
+        enum: ['male', 'female', 'other'],
+        required: true
     }
 });
 

@@ -15,49 +15,61 @@ router.get('/login', (req, res) => {
 
 // Signup route
 router.post('/signup', async (req, res) => {
-    const { user_name, email, dob, password, position, profile_url } = req.body;
+    const { user_name, email, dob, password, position, sex } = req.body;
+    const profileUrls = [
+        '/pfp/profile1.jpg',
+        '/pfp/profile2.jpg',
+        '/pfp/profile3.jpg',
+        '/pfp/profile4.jpg',
+        '/pfp/profile5.jpg',
+        '/pfp/profile6.jpg',
+        '/pfp/profile7.jpg',
+        '/pfp/profile8.jpg',
+        '/pfp/profile9.jpg',
+    ];
+    const profile_url = profileUrls[Math.floor(Math.random() * profileUrls.length)];
+    
     try {
         // Validate user_name
         if (!user_name || user_name.length < 3) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid username' });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid username', form_data: req.body });
         }
 
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email || !emailRegex.test(email)) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid email' });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid email', form_data: req.body });
         }
 
         // Validate dob
         if (!dob || new Date(dob) > new Date()) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid date of birth' });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid date of birth', form_data: req.body });
         }
 
         // Validate password
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
         if (!password || !passwordRegex.test(password)) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Password must be at least 6 characters long and contain alphabets, numbers, and special symbols' });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Password must be at least 6 characters long and contain alphabets, numbers, and special symbols', form_data: req.body });
         }
 
         // Validate position
         if (!position) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Position is required' });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Position is required', form_data: req.body });
         }
 
-        // Validate profile_url
-        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-        if (!profile_url || !urlRegex.test(profile_url)) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid profile URL' });
+        // Validate sex
+        if (!sex) {
+            return res.status(400).render('signup', { title: 'Signup', error: 'Sex is required', form_data: req.body });
         }
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'User already exists' });
+            return res.status(400).render('signup', { title: 'Signup', error: 'User already exists', form_data: req.body });
         }
 
         // Create new user
-        const newUser = new User({ user_name, email, dob, password, position, profile_url });
+        const newUser = new User({ user_name, email, dob, password, position, profile_url, sex });
         await newUser.save();
 
         // Remove password from user object before adding to session
