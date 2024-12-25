@@ -34,8 +34,9 @@ router.post('/signup', async (req, res) => {
         }
 
         // Validate password
-        if (!password || password.length < 6) {
-            return res.status(400).send('Password must be at least 6 characters long');
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+        if (!password || !passwordRegex.test(password)) {
+            return res.status(400).send('Password must be at least 6 characters long and contain alphabets, numbers, and special symbols');
         }
 
         // Validate position
