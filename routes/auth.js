@@ -162,7 +162,7 @@ router.get('/verify-email', async (req, res) => {
         user.verificationCodeCreatedAt = undefined; // Clear the verification code creation time
         await user.save();
 
-        res.render('verify-email', { title: 'Email Verification', message: 'Email verified successfully. You can now log in.' });
+        res.render('verify-email', { title: 'Email Verification', message: 'Email verified successfully. You can now log in.', error: null });
     } catch (err) {
         console.error(err);
         res.status(500).render('verify-email', { title: 'Email Verification', error: 'Server error' });
