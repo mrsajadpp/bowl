@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
         const totalReceivedAmount = totalReceived.length > 0 ? totalReceived[0].total : 0;
         const totalLossAmount = totalLoss.length > 0 ? totalLoss[0].total : 0;
 
-        res.render('index', { title: 'Home', totalReceived: totalReceivedAmount, totalLoss: totalLossAmount, error: null });
+        res.render('index', { title: 'Home', totalReceived: totalReceivedAmount, totalLoss: totalLossAmount, user, error: null });
     } catch (err) {
         res.status(500).render('index', { title: 'Home', error: 'Server error' });
     }
