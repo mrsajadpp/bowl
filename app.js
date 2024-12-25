@@ -21,16 +21,16 @@ app.set('layout', 'layout');
 // Use cookie-session middleware
 app.use(cookieSession({
     name: 'session',
-    keys: ['hi@123', 'hello@123'],
+    keys: ['hi@23', 'hello@23'],
     maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
 }));
 
 // Middleware to check if user is already logged in
 function checkLoggedIn(req, res, next) {
-    if (req.session.user) {
-        return res.redirect('/');
+    if (!req.session.user) {
+        return next();
     }
-    return next();
+    return res.redirect('/auth/login');
 }
 
 // Middleware to check if user is not logged in
@@ -47,8 +47,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
-app.use('/', checkNotLoggedIn, indexRouter);
 app.use('/auth', checkLoggedIn, authRouter);
+app.use('/', checkNotLoggedIn, indexRouter);
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)

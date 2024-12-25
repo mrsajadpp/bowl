@@ -1,0 +1,10 @@
+<h1>Email Verification</h1>
+<% if (error) { %>
+    <p style="color: red;">
+        <%= error %>
+    </p>
+    <% } else if (message) { %>
+        <p style="color: green;">
+            <%= message %>
+        </p>
+        <% } %>

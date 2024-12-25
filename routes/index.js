@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         // Check if user ID is valid
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('index', { title: 'Home', error: 'Invalid user ID' });
+            return res.status(400).render('index', { title: 'Home', error: 'Invalid user ID', user: req.session.user });
         }
 
         // Check email verification status
@@ -86,7 +86,7 @@ router.get('/', async (req, res) => {
             error: null 
         });
     } catch (err) {
-        res.status(500).render('index', { title: 'Home', error: 'Server error' });
+        res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user });
     }
 });
 
@@ -138,7 +138,6 @@ router.post('/transactions', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        
         res.status(500).render('transaction_form', { title: 'Transaction Form', error: 'Server error', form_data: req.body });
     }
 });

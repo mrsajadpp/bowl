@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
     user_name: {
@@ -42,6 +44,12 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    verificationCode: {
+        type: String
+    },
+    verificationCodeCreatedAt: {
+        type: Date
     }
 });
 
@@ -67,6 +75,33 @@ userSchema.methods.checkEmailVerification = function() {
             user.save();
         }
     }
+};
+
+// Method to send verification email
+userSchema.methods.sendVerificationEmail = async function() {
+    const user = this;
+    user.verificationCode = crypto.randomBytes(20).toString('hex');
+    user.verificationCodeCreatedAt = new Date();
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'noreply.tikketu@gmail.com',
+            pass: process.env.APP_PASS
+        }
+    });
+
+    const verificationUrl = `http://your-domain.com/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
+
+    const mailOptions = {
+        from: 'your-email@gmail.com',
+        to: user.email,
+        subject: 'Email Verification',
+        text: `Please verify your email by clicking the following link: ${verificationUrl}`
+    };
+
+    await transporter.sendMail(mailOptions);
 };
 
 module.exports = mongoose.model('User', userSchema);
