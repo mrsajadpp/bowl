@@ -25,6 +25,14 @@ app.use(cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
 }));
 
+// Middleware to check if user is already logged in
+function checkLoggedIn(req, res, next) {
+    if (req.session.user) {
+        return res.redirect('/');
+    }
+    next();
+}
+
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -32,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
+app.use('/auth', checkLoggedIn, authRouter);
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
