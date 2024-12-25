@@ -126,6 +126,7 @@ router.post('/transactions', async (req, res) => {
             transaction_type,
             transaction_date,
             note,
+            transaction_note,
             category
         });
 
