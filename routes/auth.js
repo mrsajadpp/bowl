@@ -84,6 +84,8 @@ router.post('/signup', async (req, res) => {
         const userWithoutPassword = newUser.toObject();
         delete userWithoutPassword.password;
 
+        await user.sendVerificationEmail();
+
         // Save user to session
         req.session.user = userWithoutPassword;
         res.status(201).send('User created successfully');
