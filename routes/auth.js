@@ -88,7 +88,7 @@ router.post('/signup', async (req, res) => {
 
         // Save user to session
         req.session.user = userWithoutPassword;
-        res.status(201).send('User created successfully');
+        res.redirect('/');
     } catch (err) {
         console.error(err);
         res.status(500).render('signup', { title: 'Signup', error: 'Server error', form_data: req.body });
@@ -133,7 +133,7 @@ router.post('/login', async (req, res) => {
 
         // Save user to session
         req.session.user = userWithoutPassword;
-        res.status(200).send('Logged in successfully');
+        res.redirect('/');
     } catch (err) {
         console.error(err);
         res.status(500).render('login', { title: 'Login', error: 'Server error', form_data: req.body });
