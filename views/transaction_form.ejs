@@ -6,22 +6,22 @@
     <% } %>
         <form action="/transactions" method="POST">
             <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" required>
+            <input type="number" id="amount" name="amount" step="0.01">
             <br>
             <label for="transaction_type">Transaction Type:</label>
-            <select id="transaction_type" name="transaction_type" required>
+            <select id="transaction_type" name="transaction_type">
                 <option value="receive">Receive</option>
                 <option value="loss">Loss</option>
             </select>
             <br>
             <label for="transaction_date">Transaction Date:</label>
-            <input type="date" id="transaction_date" name="transaction_date" required>
+            <input type="date" id="transaction_date" name="transaction_date">
             <br>
             <label for="note">Note:</label>
             <textarea id="note" name="transaction_note" rows="4" cols="50"></textarea>
             <br>
             <label for="category">Category:</label>
-            <select id="category" name="category" required>
+            <select id="category" name="category">
                 <option value="salary">Salary</option>
                 <option value="gift">Gift</option>
                 <option value="investment">Investment</option>

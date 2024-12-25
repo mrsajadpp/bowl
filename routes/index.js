@@ -3,6 +3,7 @@ const cookieSession = require('cookie-session');
 const router = express.Router();
 const Transaction = require('../models/transaction');
 const User = require('../models/user');
+const { default: mongoose } = require('mongoose');
 
 // Home route
 router.get('/', async (req, res) => {
@@ -17,12 +18,12 @@ router.get('/', async (req, res) => {
 
         // Aggregate data for full lifetime
         const totalReceived = await Transaction.aggregate([
-            { $match: { user_id: userId, transaction_type: 'receive' } },
+            { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'receive' } },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
 
         const totalLoss = await Transaction.aggregate([
-            { $match: { user_id: userId, transaction_type: 'loss' } },
+            { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'loss' } },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
 
@@ -37,7 +38,7 @@ router.get('/', async (req, res) => {
         const totalReceivedMonth = await Transaction.aggregate([
             { 
                 $match: { 
-                    user_id: userId, 
+                    user_id: new mongoose.Types.ObjectId(userId), 
                     transaction_type: 'receive',
                     $expr: { 
                         $and: [
@@ -53,7 +54,7 @@ router.get('/', async (req, res) => {
         const totalLossMonth = await Transaction.aggregate([
             { 
                 $match: { 
-                    user_id: userId, 
+                    user_id: new mongoose.Types.ObjectId(userId), 
                     transaction_type: 'loss',
                     $expr: { 
                         $and: [
