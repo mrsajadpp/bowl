@@ -18,8 +18,8 @@ app.set('views', path.join(__dirname, 'views'));
 // Use cookie-session middleware
 app.use(cookieSession({
     name: 'session',
-    keys: ['key1', 'key2'],
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    keys: ['hi@123', 'hello@123'],
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
 }));
 
 // Static files
