@@ -17,6 +17,38 @@ router.get('/login', (req, res) => {
 router.post('/signup', async (req, res) => {
     const { user_name, email, dob, password, position, profile_url } = req.body;
     try {
+        // Validate user_name
+        if (!user_name || user_name.length < 3) {
+            return res.status(400).send('Invalid username');
+        }
+
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            return res.status(400).send('Invalid email');
+        }
+
+        // Validate dob
+        if (!dob || new Date(dob) > new Date()) {
+            return res.status(400).send('Invalid date of birth');
+        }
+
+        // Validate password
+        if (!password || password.length < 6) {
+            return res.status(400).send('Password must be at least 6 characters long');
+        }
+
+        // Validate position
+        if (!position) {
+            return res.status(400).send('Position is required');
+        }
+
+        // Validate profile_url
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+        if (!profile_url || !urlRegex.test(profile_url)) {
+            return res.status(400).send('Invalid profile URL');
+        }
+
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
