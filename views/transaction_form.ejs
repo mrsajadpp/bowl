@@ -1,1 +1,43 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Form</title>
+</head>
+<body>
+    <h1>Transaction Form</h1>
+    <form action="/transactions" method="POST">
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+        <br>
+        <label for="transaction_type">Transaction Type:</label>
+        <select id="transaction_type" name="transaction_type" required>
+            <option value="receive">Receive</option>
+            <option value="loss">Loss</option>
+        </select>
+        <br>
+        <label for="transaction_date">Transaction Date:</label>
+        <input type="date" id="transaction_date" name="transaction_date" required>
+        <br>
+        <label for="note">Note:</label>
+        <textarea id="note" name="note" rows="4" cols="50"></textarea>
+        <br>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="salary">Salary</option>
+            <option value="gift">Gift</option>
+            <option value="investment">Investment</option>
+            <option value="food">Food</option>
+            <option value="transportation">Transportation</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="bills">Bills</option>
+            <option value="shopping">Shopping</option>
+            <option value="health">Health</option>
+            <option value="other">Other</option>
+        </select>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

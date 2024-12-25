@@ -86,4 +86,51 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Route to render the transaction form
+router.get('/transaction_form', (req, res) => {
+    res.render('transaction_form', { title: 'Transaction Form', error: null });
+});
+
+// Route to handle form submission
+router.post('/transactions', async (req, res) => {
+    try {
+        const { amount, transaction_type, transaction_date, note, category } = req.body;
+        const userId = req.session.user._id;
+
+        // Validate user ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Invalid user ID' });
+        }
+
+        // Check if all required fields are provided
+        if (!amount) {
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Amount is required' });
+        }
+        if (!transaction_type) {
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction type is required' });
+        }
+        if (!transaction_date) {
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction date is required' });
+        }
+        if (!category) {
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Category is required' });
+        }
+
+        const newTransaction = new Transaction({
+            user_id: userId,
+            amount,
+            transaction_type,
+            transaction_date,
+            note,
+            category
+        });
+
+        await newTransaction.save();
+        res.redirect('/');
+    } catch (err) {
+        res.status(500).render('transaction_form', { title: 'Transaction Form', error: 'Server error' });
+    }
+});
+
 module.exports = router;
