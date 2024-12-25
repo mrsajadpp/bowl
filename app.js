@@ -33,13 +33,21 @@ function checkLoggedIn(req, res, next) {
     next();
 }
 
+// Middleware to check if user is not logged in
+function checkNotLoggedIn(req, res, next) {
+    if (req.session.user) {
+        next();
+    }
+    return res.redirect('/auth/login');
+}
+
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
-app.use('/', indexRouter);
+app.use('/', checkNotLoggedIn, indexRouter);
 app.use('/auth', checkLoggedIn, authRouter);
 
 // Database connection
