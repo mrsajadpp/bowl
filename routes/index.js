@@ -16,6 +16,9 @@ router.get('/', async (req, res) => {
             return res.status(400).render('index', { title: 'Home', error: 'Invalid user ID' });
         }
 
+        // Check email verification status
+        user.checkEmailVerification();
+
         // Aggregate data for full lifetime
         const totalReceived = await Transaction.aggregate([
             { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'receive' } },

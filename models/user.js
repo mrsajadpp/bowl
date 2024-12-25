@@ -32,6 +32,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['male', 'female', 'other'],
         required: true
+    },
+    status: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
+    email_verified: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 });
 
@@ -42,5 +52,21 @@ userSchema.pre('save', async function(next) {
     }
     next();
 });
+
+// Method to set status to false if email_verified is false after 24 hours
+userSchema.methods.checkEmailVerification = function() {
+    const user = this;
+    if (!user.email_verified) {
+        const createdAt = user._id.getTimestamp();
+        const currentTime = new Date();
+        const timeDifference = currentTime - createdAt;
+        const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+        if (hoursDifference > 24) {
+            user.status = false;
+            user.save();
+        }
+    }
+};
 
 module.exports = mongoose.model('User', userSchema);
