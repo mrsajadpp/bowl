@@ -1,5 +1,21 @@
+<h1>Welcome, <%= user.user_name %>!</h1>
+<% if (error) { %>
+    <p style="color: red;">
+        <%= error %>
+    </p>
+    <% } %>
+        <h2>Lifetime Summary</h2>
+        <p>Total Received: <%= totalReceived %>
+        </p>
+        <p>Total Loss: <%= totalLoss %>
+        </p>
+        <p>Remaining Amount: <%= remainingAmount %>
+        </p>
 
-<%- include('layout', { body: `
-    <h2>Welcome to the Home Page</h2>
-    <p>This is the main content of the home page.</p>
-` }) %>
+        <h2>Current Month Summary</h2>
+        <p>Total Received: <%= totalReceivedMonth %>
+        </p>
+        <p>Total Loss: <%= totalLossMonth %>
+        </p>
+        <p>Remaining Amount: <%= remainingAmountMonth %>
+        </p>
