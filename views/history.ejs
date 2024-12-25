@@ -1,0 +1,14 @@
+<h1>Transaction History</h1>
+    <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } else { %>
+        <ul>
+            <% months.forEach(month => { %>
+                <li>
+                    <a href="/history/<%= month.year %>/<%= month.month %>">
+                        <%= month.year %> - <%= month.month %>
+                    </a>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>

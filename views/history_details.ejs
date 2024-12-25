@@ -1,0 +1,50 @@
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+
+    .grid-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+<h1>Transaction Details for <%= title %>
+</h1>
+<% if (error) { %>
+    <p style="color: red;">
+        <%= error %>
+    </p>
+    <% } else { %>
+        <p>Total Received: <%= totalReceived %>
+        </p>
+        <p>Total Loss: <%= totalLoss %>
+        </p>
+        <p>Remaining Amount: <%= remainingAmount %>
+        </p>
+        <h2>Transactions</h2>
+        <% Object.keys(transactionsByDay).forEach(date=> { %>
+            <h3>
+                <%= date %>
+            </h3>
+            <p>Total Received: <%= transactionsByDay[date].totalReceived %></p>
+            <p>Total Loss: <%= transactionsByDay[date].totalLoss %></p>
+            <p>Remaining Amount: <%= transactionsByDay[date].remainingAmount %></p>
+            <div class="grid-container">
+                <% transactionsByDay[date].transactions.forEach(transaction=> { %>
+                    <div class="grid-item">
+                        <strong>Type:</strong>
+                        <%= transaction.transaction_type %><br>
+                            <strong>Amount:</strong>
+                            <%= transaction.amount %><br>
+                                <strong>Note:</strong>
+                                <%= transaction.transaction_note %><br>
+                                    <strong>Category:</strong>
+                                    <%= transaction.category %>
+                    </div>
+                    <% }) %>
+            </div>
+            <% }) %>
+                <% } %>

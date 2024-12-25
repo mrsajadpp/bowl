@@ -142,4 +142,135 @@ router.post('/transactions', async (req, res) => {
     }
 });
 
+// Route to render the history page
+router.get('/history', async (req, res) => {
+    try {
+        const userId = req.session.user._id;
+
+        // Validate user ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).render('history', { title: 'History', error: 'Invalid user ID', user: req.session.user });
+        }
+
+        // Get a list of past months with transactions
+        const transactions = await Transaction.aggregate([
+            { $match: { user_id: new mongoose.Types.ObjectId(userId) } },
+            { 
+                $group: { 
+                    _id: { 
+                        year: { $year: '$transaction_date' }, 
+                        month: { $month: '$transaction_date' } 
+                    } 
+                } 
+            },
+            { $sort: { '_id.year': -1, '_id.month': -1 } }
+        ]);
+
+        const months = transactions.map(t => ({
+            year: t._id.year,
+            month: t._id.month
+        }));
+
+        res.render('history', { title: 'History', months, user, error: null });
+    } catch (err) {
+        res.status(500).render('history', { title: 'History', error: 'Server error', user: req.session.user });
+    }
+});
+
+// Route to get transaction details for a specific month and year
+router.get('/history/:year/:month', async (req, res) => {
+    try {
+        const userId = req.session.user._id;
+        const { year, month } = req.params;
+
+        // Validate user ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).render('history_details', { title: 'History Details', error: 'Invalid user ID', user: req.session.user });
+        }
+
+        // Get transactions for the specified month and year
+        const transactions = await Transaction.find({
+            user_id: new mongoose.Types.ObjectId(userId),
+            $expr: {
+                $and: [
+                    { $eq: [{ $year: '$transaction_date' }, parseInt(year)] },
+                    { $eq: [{ $month: '$transaction_date' }, parseInt(month)] }
+                ]
+            }
+        }).sort({ transaction_date: 1 });
+
+        // Aggregate data for the specified month
+        const totalReceived = await Transaction.aggregate([
+            { 
+                $match: { 
+                    user_id: new mongoose.Types.ObjectId(userId), 
+                    transaction_type: 'receive',
+                    $expr: { 
+                        $and: [
+                            { $eq: [{ $month: '$transaction_date' }, parseInt(month)] },
+                            { $eq: [{ $year: '$transaction_date' }, parseInt(year)] }
+                        ]
+                    }
+                } 
+            },
+            { $group: { _id: null, total: { $sum: '$amount' } } }
+        ]);
+
+        const totalLoss = await Transaction.aggregate([
+            { 
+                $match: { 
+                    user_id: new mongoose.Types.ObjectId(userId), 
+                    transaction_type: 'loss',
+                    $expr: { 
+                        $and: [
+                            { $eq: [{ $month: '$transaction_date' }, parseInt(month)] },
+                            { $eq: [{ $year: '$transaction_date' }, parseInt(year)] }
+                        ]
+                    }
+                } 
+            },
+            { $group: { _id: null, total: { $sum: '$amount' } } }
+        ]);
+
+        const totalReceivedAmount = totalReceived.length > 0 ? totalReceived[0].total : 0;
+        const totalLossAmount = totalLoss.length > 0 ? totalLoss[0].total : 0;
+        const remainingAmount = totalReceivedAmount - totalLossAmount;
+
+        // Group transactions by day and calculate daily totals
+        const transactionsByDay = transactions.reduce((acc, transaction) => {
+            const date = transaction.transaction_date.toISOString().split('T')[0];
+            if (!acc[date]) {
+                acc[date] = {
+                    transactions: [],
+                    totalReceived: 0,
+                    totalLoss: 0,
+                    remainingAmount: 0
+                };
+            }
+            acc[date].transactions.push(transaction);
+            if (transaction.transaction_type === 'receive') {
+                acc[date].totalReceived += transaction.amount;
+            } else if (transaction.transaction_type === 'loss') {
+                acc[date].totalLoss += transaction.amount;
+            }
+            acc[date].remainingAmount = acc[date].totalReceived - acc[date].totalLoss;
+            return acc;
+        }, {});
+
+        res.render('history_details', { 
+            title: `History for ${month}/${year}`, 
+            transactionsByDay, 
+            totalReceived: totalReceivedAmount, 
+            totalLoss: totalLossAmount, 
+            remainingAmount, 
+            user, 
+            error: null 
+        });
+    } catch (err) {
+        res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user });
+    }
+});
+
 module.exports = router;
