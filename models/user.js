@@ -92,7 +92,7 @@ userSchema.methods.sendVerificationEmail = async function() {
         }
     });
 
-    const verificationUrl = `http://your-domain.com/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
+    const verificationUrl = `http://localhost:3000/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
 
     const mailOptions = {
         from: 'your-email@gmail.com',
