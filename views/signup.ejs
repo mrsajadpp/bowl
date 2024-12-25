@@ -4,24 +4,24 @@
 <% } %>
 <form action="/auth/signup" method="post">
     <label for="user_name">Username:</label>
-    <input type="text" id="user_name" name="user_name" required><br>
+    <input type="text" id="user_name" name="user_name" value="<%= form_data ? form_data.user_name : '' %>"><br>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br>
+    <input type="email" id="email" name="email" value="<%= form_data ? form_data.email : '' %>"><br>
     <label for="dob">Date of Birth:</label>
-    <input type="date" id="dob" name="dob" required><br>
+    <input type="date" id="dob" name="dob" value="<%= form_data ? form_data.dob : '' %>"><br>
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br>
+    <input type="password" id="password" name="password"><br>
     <label for="position">Position:</label>
-    <select id="position" name="position" required>
-        <option value="professional">Professional</option>
-        <option value="student">Student</option>
-        <option value="other">Other</option>
+    <select id="position" name="position">
+        <option value="professional" <%= form_data && form_data.position === 'professional' ? 'selected' : '' %>>Professional</option>
+        <option value="student" <%= form_data && form_data.position === 'student' ? 'selected' : '' %>>Student</option>
+        <option value="other" <%= form_data && form_data.position === 'other' ? 'selected' : '' %>>Other</option>
     </select><br>
     <label for="sex">Sex:</label>
-    <select id="sex" name="sex" required>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
+    <select id="sex" name="sex">
+        <option value="male" <%= form_data && form_data.sex === 'male' ? 'selected' : '' %>>Male</option>
+        <option value="female" <%= form_data && form_data.sex === 'female' ? 'selected' : '' %>>Female</option>
+        <option value="other" <%= form_data && form_data.sex === 'other' ? 'selected' : '' %>>Other</option>
     </select><br>
     <button type="submit">Signup</button>
 </form>

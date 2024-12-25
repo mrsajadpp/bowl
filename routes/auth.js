@@ -80,7 +80,7 @@ router.post('/signup', async (req, res) => {
         req.session.user = userWithoutPassword;
         res.status(201).send('User created successfully');
     } catch (err) {
-        res.status(500).render('signup', { title: 'Signup', error: 'Server error' });
+        res.status(500).render('signup', { title: 'Signup', error: 'Server error', form_data: req.body });
     }
 });
 
@@ -91,24 +91,24 @@ router.post('/login', async (req, res) => {
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email || !emailRegex.test(email)) {
-            return res.status(400).render('login', { title: 'Login', error: 'Invalid email' });
+            return res.status(400).render('login', { title: 'Login', error: 'Invalid email', form_data: req.body });
         }
 
         // Validate password
         if (!password) {
-            return res.status(400).render('login', { title: 'Login', error: 'Password is required' });
+            return res.status(400).render('login', { title: 'Login', error: 'Password is required', form_data: req.body });
         }
 
         // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).render('login', { title: 'Login', error: 'User does not exist' });
+            return res.status(400).render('login', { title: 'Login', error: 'User does not exist', form_data: req.body });
         }
 
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).render('login', { title: 'Login', error: 'Invalid credentials' });
+            return res.status(400).render('login', { title: 'Login', error: 'Invalid credentials', form_data: req.body });
         }
 
         // Remove password from user object before adding to session
@@ -119,7 +119,7 @@ router.post('/login', async (req, res) => {
         req.session.user = userWithoutPassword;
         res.status(200).send('Logged in successfully');
     } catch (err) {
-        res.status(500).render('login', { title: 'Login', error: 'Server error' });
+        res.status(500).render('login', { title: 'Login', error: 'Server error', form_data: req.body });
     }
 });
 
