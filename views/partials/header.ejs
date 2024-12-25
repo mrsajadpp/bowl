@@ -1,0 +1,90 @@
+<header class="header">
+    <div class="logo">
+        <img src="/logo/logo.png" alt="Logo" class="logo-image">
+    </div>
+</header>
+
+<style>
+    /* Header container */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #0078e8;
+        color: white;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo-image {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .logo-text {
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* Navigation styles */
+    .nav {
+        display: flex;
+    }
+
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .nav-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Mobile view */
+    @media (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-text {
+            font-size: 20px;
+        }
+
+        .nav {
+            width: 100%;
+            margin-top: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            display: none;
+        }
+
+        .nav-link {
+            margin: 10px 15px;
+            font-size: 14px;
+        }
+
+        .menu-toggle {
+            display: block;
+            font-size: 24px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .nav.active {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+</style>
