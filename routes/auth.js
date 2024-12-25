@@ -171,9 +171,4 @@ router.get('/verify-email', async (req, res) => {
     }
 });
 
-router.get('/logout', (req, res) => {
-    req.session = null;
-    res.redirect('/auth/login');
-});
-
 module.exports = router;

@@ -39,33 +39,33 @@ router.get('/', async (req, res) => {
         const currentYear = new Date().getFullYear();
 
         const totalReceivedMonth = await Transaction.aggregate([
-            { 
-                $match: { 
-                    user_id: new mongoose.Types.ObjectId(userId), 
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
                     transaction_type: 'receive',
-                    $expr: { 
+                    $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, currentMonth] },
                             { $eq: [{ $year: '$transaction_date' }, currentYear] }
                         ]
                     }
-                } 
+                }
             },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
 
         const totalLossMonth = await Transaction.aggregate([
-            { 
-                $match: { 
-                    user_id: new mongoose.Types.ObjectId(userId), 
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
                     transaction_type: 'loss',
-                    $expr: { 
+                    $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, currentMonth] },
                             { $eq: [{ $year: '$transaction_date' }, currentYear] }
                         ]
                     }
-                } 
+                }
             },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
@@ -74,16 +74,16 @@ router.get('/', async (req, res) => {
         const totalLossAmountMonth = totalLossMonth.length > 0 ? totalLossMonth[0].total : 0;
         const remainingAmountMonth = totalReceivedAmountMonth - totalLossAmountMonth;
 
-        res.render('index', { 
-            title: 'Home', 
-            totalReceived: totalReceivedAmount, 
-            totalLoss: totalLossAmount, 
-            remainingAmount, 
-            totalReceivedMonth: totalReceivedAmountMonth, 
-            totalLossMonth: totalLossAmountMonth, 
-            remainingAmountMonth, 
-            user, 
-            error: null 
+        res.render('index', {
+            title: 'Home',
+            totalReceived: totalReceivedAmount,
+            totalLoss: totalLossAmount,
+            remainingAmount,
+            totalReceivedMonth: totalReceivedAmountMonth,
+            totalLossMonth: totalLossAmountMonth,
+            remainingAmountMonth,
+            user,
+            error: null
         });
     } catch (err) {
         res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user });
@@ -156,13 +156,13 @@ router.get('/history', async (req, res) => {
         // Get a list of past months with transactions
         const transactions = await Transaction.aggregate([
             { $match: { user_id: new mongoose.Types.ObjectId(userId) } },
-            { 
-                $group: { 
-                    _id: { 
-                        year: { $year: '$transaction_date' }, 
-                        month: { $month: '$transaction_date' } 
-                    } 
-                } 
+            {
+                $group: {
+                    _id: {
+                        year: { $year: '$transaction_date' },
+                        month: { $month: '$transaction_date' }
+                    }
+                }
             },
             { $sort: { '_id.year': -1, '_id.month': -1 } }
         ]);
@@ -203,33 +203,33 @@ router.get('/history/:year/:month', async (req, res) => {
 
         // Aggregate data for the specified month
         const totalReceived = await Transaction.aggregate([
-            { 
-                $match: { 
-                    user_id: new mongoose.Types.ObjectId(userId), 
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
                     transaction_type: 'receive',
-                    $expr: { 
+                    $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, parseInt(month)] },
                             { $eq: [{ $year: '$transaction_date' }, parseInt(year)] }
                         ]
                     }
-                } 
+                }
             },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
 
         const totalLoss = await Transaction.aggregate([
-            { 
-                $match: { 
-                    user_id: new mongoose.Types.ObjectId(userId), 
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
                     transaction_type: 'loss',
-                    $expr: { 
+                    $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, parseInt(month)] },
                             { $eq: [{ $year: '$transaction_date' }, parseInt(year)] }
                         ]
                     }
-                } 
+                }
             },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
@@ -259,18 +259,23 @@ router.get('/history/:year/:month', async (req, res) => {
             return acc;
         }, {});
 
-        res.render('history_details', { 
-            title: `History for ${month}/${year}`, 
-            transactionsByDay, 
-            totalReceived: totalReceivedAmount, 
-            totalLoss: totalLossAmount, 
-            remainingAmount, 
-            user, 
-            error: null 
+        res.render('history_details', {
+            title: `History for ${month}/${year}`,
+            transactionsByDay,
+            totalReceived: totalReceivedAmount,
+            totalLoss: totalLossAmount,
+            remainingAmount,
+            user,
+            error: null
         });
     } catch (err) {
         res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user });
     }
+});
+
+router.get('/logout', (req, res) => {
+    req.session = null;
+    res.redirect('/auth/login');
 });
 
 module.exports = router;
