@@ -30,13 +30,13 @@ function checkLoggedIn(req, res, next) {
     if (req.session.user) {
         return res.redirect('/');
     }
-    next();
+    return next();
 }
 
 // Middleware to check if user is not logged in
 function checkNotLoggedIn(req, res, next) {
     if (req.session.user) {
-        next();
+        return next();
     }
     return res.redirect('/auth/login');
 }
