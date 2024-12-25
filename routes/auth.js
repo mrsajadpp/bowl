@@ -5,12 +5,12 @@ const router = express.Router();
 
 // GET route for signup page
 router.get('/signup', (req, res) => {
-    res.render('signup', { title: 'Signup', error: null });
+    res.render('signup', { title: 'Signup', error: null, form_data: {} });
 });
 
 // GET route for login page
 router.get('/login', (req, res) => {
-    res.render('login', { title: 'Login', error: null });
+    res.render('login', { title: 'Login', error: null, form_data: {} });
 });
 
 // Signup route

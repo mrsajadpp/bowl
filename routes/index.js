@@ -89,7 +89,7 @@ router.get('/', async (req, res) => {
 
 // Route to render the transaction form
 router.get('/transaction_form', (req, res) => {
-    res.render('transaction_form', { title: 'Transaction Form', error: null });
+    res.render('transaction_form', { title: 'Transaction Form', error: null, form_data: {} });
 });
 
 // Route to handle form submission
@@ -101,24 +101,24 @@ router.post('/transactions', async (req, res) => {
         // Validate user ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Invalid user ID' });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Invalid user ID', form_data: req.body });
         }
 
         // Check if all required fields are provided
         if (!amount) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Amount is required' });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Amount is required', form_data: req.body });
         }
         if (!transaction_type) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction type is required' });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction type is required', form_data: req.body });
         }
         if (!transaction_date) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction date is required' });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction date is required', form_data: req.body });
         }
         if (!transaction_note) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Note date is required' });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Note date is required', form_data: req.body });
         }
         if (!category) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Category is required' });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Category is required', form_data: req.body });
         }
 
         const newTransaction = new Transaction({
@@ -136,7 +136,7 @@ router.post('/transactions', async (req, res) => {
     } catch (err) {
         console.error(err);
         
-        res.status(500).render('transaction_form', { title: 'Transaction Form', error: 'Server error' });
+        res.status(500).render('transaction_form', { title: 'Transaction Form', error: 'Server error', form_data: req.body });
     }
 });
 
