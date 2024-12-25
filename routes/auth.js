@@ -172,12 +172,8 @@ router.get('/verify-email', async (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).render('error', { title: 'Error', message: 'Server error' });
-        }
-        res.redirect('/auth/login');
-    });
+    req.session = null;
+    res.redirect('/auth/login');
 });
 
 module.exports = router;

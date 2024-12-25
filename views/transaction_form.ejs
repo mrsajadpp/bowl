@@ -1,38 +1,50 @@
 <h1>Transaction Form</h1>
+
 <% if (error) { %>
-    <p style="color: red;">
+    <p style="color: red; font-weight: bold;">
         <%= error %>
     </p>
-    <% } %>
-        <form action="/transactions" method="POST">
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" step="0.01" value="<%= form_data ? form_data.amount : '' %>">
-            <br>
-            <label for="transaction_type">Transaction Type:</label>
-            <select id="transaction_type" name="transaction_type">
-                <option value="receive" <%= form_data && form_data.transaction_type === 'receive' ? 'selected' : '' %>>Receive</option>
-                <option value="loss" <%= form_data && form_data.transaction_type === 'loss' ? 'selected' : '' %>>Loss</option>
-            </select>
-            <br>
-            <label for="transaction_date">Transaction Date:</label>
-            <input type="date" id="transaction_date" name="transaction_date" value="<%= form_data ? form_data.transaction_date : '' %>">
-            <br> 
-            <label for="note">Note:</label>
-            <textarea id="note" name="transaction_note" rows="4" cols="50"><%= form_data ? form_data.transaction_note : '' %></textarea>
-            <br>
-            <label for="category">Category:</label>
-            <select id="category" name="category">
-                <option value="salary" <%= form_data && form_data.category === 'salary' ? 'selected' : '' %>>Salary</option>
-                <option value="gift" <%= form_data && form_data.category === 'gift' ? 'selected' : '' %>>Gift</option>
-                <option value="investment" <%= form_data && form_data.category === 'investment' ? 'selected' : '' %>>Investment</option>
-                <option value="food" <%= form_data && form_data.category === 'food' ? 'selected' : '' %>>Food</option>
-                <option value="transportation" <%= form_data && form_data.category === 'transportation' ? 'selected' : '' %>>Transportation</option>
-                <option value="entertainment" <%= form_data && form_data.category === 'entertainment' ? 'selected' : '' %>>Entertainment</option>
-                <option value="bills" <%= form_data && form_data.category === 'bills' ? 'selected' : '' %>>Bills</option>
-                <option value="shopping" <%= form_data && form_data.category === 'shopping' ? 'selected' : '' %>>Shopping</option>
-                <option value="health" <%= form_data && form_data.category === 'health' ? 'selected' : '' %>>Health</option>
-                <option value="other" <%= form_data && form_data.category === 'other' ? 'selected' : '' %>>Other</option>
-            </select>
-            <br>
-            <button type="submit">Submit</button>
-        </form>
+<% } %>
+
+<form action="/transactions" method="POST" style="max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+    <div style="margin-bottom: 15px;">
+        <label for="amount" style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 5px;">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" value="<%= form_data ? form_data.amount : '' %>" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;" required>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="transaction_type" style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 5px;">Transaction Type:</label>
+        <select id="transaction_type" name="transaction_type" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;" required>
+            <option value="receive" <%= form_data && form_data.transaction_type === 'receive' ? 'selected' : '' %>>Receive</option>
+            <option value="loss" <%= form_data && form_data.transaction_type === 'loss' ? 'selected' : '' %>>Loss</option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="transaction_date" style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 5px;">Transaction Date:</label>
+        <input type="date" id="transaction_date" name="transaction_date" value="<%= form_data ? form_data.transaction_date : '' %>" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;" required>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="note" style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 5px;">Note:</label>
+        <textarea id="note" name="transaction_note" rows="4" cols="50" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Optional notes about the transaction"><%= form_data ? form_data.transaction_note : '' %></textarea>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="category" style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 5px;">Category:</label>
+        <select id="category" name="category" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;" required>
+            <option value="salary" <%= form_data && form_data.category === 'salary' ? 'selected' : '' %>>Salary</option>
+            <option value="gift" <%= form_data && form_data.category === 'gift' ? 'selected' : '' %>>Gift</option>
+            <option value="investment" <%= form_data && form_data.category === 'investment' ? 'selected' : '' %>>Investment</option>
+            <option value="food" <%= form_data && form_data.category === 'food' ? 'selected' : '' %>>Food</option>
+            <option value="transportation" <%= form_data && form_data.category === 'transportation' ? 'selected' : '' %>>Transportation</option>
+            <option value="entertainment" <%= form_data && form_data.category === 'entertainment' ? 'selected' : '' %>>Entertainment</option>
+            <option value="bills" <%= form_data && form_data.category === 'bills' ? 'selected' : '' %>>Bills</option>
+            <option value="shopping" <%= form_data && form_data.category === 'shopping' ? 'selected' : '' %>>Shopping</option>
+            <option value="health" <%= form_data && form_data.category === 'health' ? 'selected' : '' %>>Health</option>
+            <option value="other" <%= form_data && form_data.category === 'other' ? 'selected' : '' %>>Other</option>
+        </select>
+    </div>
+
+    <button type="submit" style="width: 100%; padding: 12px 0; font-size: 18px; font-weight: bold; background-color: #0078e8; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+</form>

@@ -1,16 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Error</h1>
-        <p><%= message %></p>
-        <a href="/auth/login">Go to Login</a>
-    </div>
-</body>
-</html>
+<style>
+    /* Global Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+    }
+
+    h1 {
+        color: #e63946;
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    a {
+        text-decoration: none;
+        background: #0078e8;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+        background-color: #005bb5;
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+<div class="container">
+    <h1>Error</h1>
+    <p>
+        <%= message %>
+    </p>
+    <a href="/auth/login">Go to Login</a>
+</div>

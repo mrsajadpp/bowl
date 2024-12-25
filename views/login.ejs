@@ -1,11 +1,133 @@
-<h1>Login</h1>
-<% if (error) { %>
-    <p style="color: red;"><%= error %></p>
-<% } %>
-<form action="/auth/login" method="post">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" value="<%= form_data ? form_data.email : '' %>" ><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" ><br>
-    <button type="submit">Login</button>
-</form>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    /* Global Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: #0078e8;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
+    }
+
+    label {
+        font-size: 1rem;
+        color: #555;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        border-color: #0078e8;
+        background-color: #fff;
+    }
+
+    .error {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #0078e8;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background-color: #005bb5;
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        .form-container {
+            padding: 20px;
+            width: 90%;
+        }
+
+        label {
+            font-size: 0.95rem;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            padding: 12px;
+            font-size: 1.1rem;
+        }
+
+        button {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+<div class="form-container">
+    <h1>Login</h1>
+
+    <% if (error) { %>
+        <p class="error">
+            <%= error %>
+        </p>
+        <% } %>
+
+            <form action="/auth/login" method="post">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<%= form_data ? form_data.email : '' %>"><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"><br>
+
+                <button type="submit">Login</button>
+            </form>
+</div>
