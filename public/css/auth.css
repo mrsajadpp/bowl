@@ -80,6 +80,16 @@ form .input_button button {
     cursor: pointer;
 }
 
+form .input_text {
+    width: 100%;
+    /* font-size: 16px; */
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    height: 45px;
+    overflow: hidden;
+}
+
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
@@ -93,4 +103,3 @@ input[type="date"]::-webkit-datetime-edit-year-field {
     color: transparent;
     display: none;
 }
-
