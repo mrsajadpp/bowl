@@ -221,7 +221,7 @@ router.post('/reset-password', async (req, res) => {
         // Send reset email (implement sendResetEmail method in User model)
         await user.sendResetEmail(resetToken);
 
-        res.render('reset_password_request', { title: 'Reset Password', message: 'Password reset link has been sent to your email.', error: null });
+        res.render('reset_password_request', { title: 'Reset Password', message: 'Password reset link has been sent to your email.', error: null, auth_page: true });
     } catch (err) {
         console.error(err);
         res.status(500).render('reset_password_request', { title: 'Reset Password', error: 'Server error', message: null, auth_page: true });
