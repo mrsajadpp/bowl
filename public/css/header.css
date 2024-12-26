@@ -297,6 +297,7 @@ header.mobile_header .header_logo a img {
     .container {
         width: calc(100% - 330px);
         margin: 0px;
+        margin-top: 20px !important;
     }
 }
 
