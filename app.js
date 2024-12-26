@@ -1,9 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const colors = require('colors');
+const morgan = require("morgan");
 const path = require('path');
 const cookieSession = require('cookie-session');
 const expressLayouts = require('express-ejs-layouts');
+const fs = require("fs");
+
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, "access.log"),
+    { flags: "a" }
+); 
+
+// Define a custom token for coloring status code
+morgan.token('status', (req, res) => {
+    const status = res.statusCode;
+    let color = status >= 500 ? 'red'    // server error
+        : status >= 400 ? 'yellow' // client error
+            : status >= 300 ? 'cyan'   // redirection
+                : status >= 200 ? 'green'  // success
+                    : 'reset';                 // default
+
+    return colors[color](status);
+});
 
 dotenv.config();
 
@@ -11,6 +31,17 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
+app.use(
+    morgan((tokens, req, res) => {
+        return [
+            colors.blue(tokens.method(req, res)),
+            colors.magenta(tokens.url(req, res)),
+            tokens.status(req, res),
+            colors.cyan(tokens['response-time'](req, res) + ' ms'),
+        ].join(' ');
+    })
+);
+app.use(morgan("combined", { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
