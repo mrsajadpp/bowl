@@ -172,6 +172,11 @@ header.mobile_header .header_logo a img {
     color: #654cbd;
 }
 
+.mobile_menu .menu ul li a .feedback_logo.red,
+.mobile_menu .menu ul li a .feedback_text.red {
+    color: red;
+}
+
 @media (min-width: 768px) {
     header.mobile_header {
         display: none;
