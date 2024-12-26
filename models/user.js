@@ -50,6 +50,12 @@ const userSchema = new mongoose.Schema({
     },
     verificationCodeCreatedAt: {
         type: Date
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
     }
 });
 
@@ -99,6 +105,30 @@ userSchema.methods.sendVerificationEmail = async function() {
         to: user.email,
         subject: 'Email Verification',
         text: `Please verify your email by clicking the following link: ${verificationUrl}`
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
+// Method to send password reset email
+userSchema.methods.sendResetEmail = async function(resetToken) {
+    const user = this;
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'noreply.tikketu@gmail.com',
+            pass: process.env.APP_PASS
+        }
+    });
+
+    const resetUrl = `http://localhost:3000/auth/reset-password/${resetToken}`;
+
+    const mailOptions = {
+        from: 'your-email@gmail.com',
+        to: user.email,
+        subject: 'Password Reset',
+        text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}. This link will expire in 6 minutes.`
     };
 
     await transporter.sendMail(mailOptions);
