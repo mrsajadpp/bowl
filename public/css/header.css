@@ -61,7 +61,7 @@ header.mobile_header .header_logo a img {
 }
 
 .mobile_menu {
-    width: 100%;
+    width: 70%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -75,6 +75,7 @@ header.mobile_header .header_logo a img {
     transform: translateX(-100%);
     transition: transform 0.3s;
     z-index: 1000;
+    border-right: 1px solid #ccc;
 }
 
 .mobile_menu.active {
