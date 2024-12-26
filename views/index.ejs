@@ -146,24 +146,30 @@ function formatCategory(category) {
 </div>
 
 <!-- Most Spent and Most Received Categories -->
-<div class="section">
-  <div class="section-title">Category Insights</div>
-  <div class="grid">
-    <% if (typeof mostSpentCategoryAmount !== 'undefined' && mostSpentCategoryAmount !== null && typeof mostSpentCategoryThisMonth !== 'undefined' && mostSpentCategoryThisMonth !== null) { %>
-      <div class="card">
-        <div class="number red">₹<%= mostSpentCategoryAmount %></div>
-        <div class="category">Most Spent Last Month: <span class="highlight"><%= formatCategory(mostSpentCategoryThisMonth) %></span></div>
-      </div>
-    <% } %>
+<% if (
+  (typeof mostSpentCategoryAmount !== 'undefined' && mostSpentCategoryAmount !== null && typeof mostSpentCategoryThisMonth !== 'undefined' && mostSpentCategoryThisMonth !== null) ||
+  (typeof mostReceivedCategoryAmount !== 'undefined' && mostReceivedCategoryAmount !== null && typeof mostReceivedCategoryLastMonth !== 'undefined' && mostReceivedCategoryLastMonth !== null)
+) { %>
+  <div class="section">
+    <div class="section-title">Category Insights</div>
+    <div class="grid">
+      <% if (typeof mostSpentCategoryAmount !== 'undefined' && mostSpentCategoryAmount !== null && typeof mostSpentCategoryThisMonth !== 'undefined' && mostSpentCategoryThisMonth !== null) { %>
+        <div class="card">
+          <div class="number red">₹<%= mostSpentCategoryAmount %></div>
+          <div class="category">Most Spent Last Month: <span class="highlight"><%= formatCategory(mostSpentCategoryThisMonth) %></span></div>
+        </div>
+      <% } %>
 
-    <% if (typeof mostReceivedCategoryAmount !== 'undefined' && mostReceivedCategoryAmount !== null && typeof mostReceivedCategoryLastMonth !== 'undefined' && mostReceivedCategoryLastMonth !== null) { %>
-      <div class="card">
-        <div class="number green">₹<%= mostReceivedCategoryAmount %></div>
-        <div class="category">Most Income Last Month: <span class="highlight"><%= formatCategory(mostReceivedCategoryLastMonth) %></span></div>
-      </div>
-    <% } %>
+      <% if (typeof mostReceivedCategoryAmount !== 'undefined' && mostReceivedCategoryAmount !== null && typeof mostReceivedCategoryLastMonth !== 'undefined' && mostReceivedCategoryLastMonth !== null) { %>
+        <div class="card">
+          <div class="number green">₹<%= mostReceivedCategoryAmount %></div>
+          <div class="category">Most Income Last Month: <span class="highlight"><%= formatCategory(mostReceivedCategoryLastMonth) %></span></div>
+        </div>
+      <% } %>
+    </div>
   </div>
-</div>
+<% } %>
+
 
 <!-- Total Overview Section -->
 <div class="section">
