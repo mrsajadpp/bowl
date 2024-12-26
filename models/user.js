@@ -92,7 +92,7 @@ userSchema.methods.sendVerificationEmail = async function() {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'Bowl. <noreply.tikketu@gmail.com>',
+            user: 'noreply.tikketu@gmail.com',
             pass: process.env.APP_PASS
         }
     });
@@ -116,7 +116,7 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'Bowl. <noreply.tikketu@gmail.com>',
+            user: 'noreply.tikketu@gmail.com',
             pass: process.env.APP_PASS
         }
     });
