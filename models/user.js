@@ -6,8 +6,7 @@ const crypto = require('crypto');
 const userSchema = new mongoose.Schema({
     user_name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     email: {
         type: String,
@@ -15,7 +14,7 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     dob: {
-        type: Date,
+        type: String,
         required: true
     },
     password: {
@@ -66,6 +65,16 @@ userSchema.pre('save', async function(next) {
     }
     next();
 });
+
+userSchema.pre('save', function(next) {
+    if (this.isModified('dob') || this.isNew) {
+        if (typeof this.dob === 'string' && this.dob.includes('/')) {
+            const [day, month, year] = this.dob.split('/').map(Number);
+            this.dob = new Date(year, month - 1, day);
+        }
+    }
+    next();
+}); 
 
 // Method to set status to false if email_verified is false after 24 hours
 userSchema.methods.checkEmailVerification = function() {
