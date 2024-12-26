@@ -31,29 +31,35 @@ button {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: fixed;
     bottom: 20px;
     right: 15px;
     background: #fff;
     border: 1px solid #ccc;
     border-radius: 3px;
+    padding: 0 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.error_box .error_icon {
+.error_box .error_icon,
+.error_box .close_icon {
     width: 30px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .error_box .error_text {
-    width: calc(100% - 60px);
+    width: calc(100% - 30px);
     display: flex;
     height: 100%;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
+    padding: 0 10px;
+    text-align: center;
 }
 
 .error_box.red {
