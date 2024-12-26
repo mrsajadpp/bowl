@@ -64,6 +64,14 @@
       font-size: 1rem;
     }
   }
+
+  .card .number.green {
+    color: green;
+  }
+
+  .card .number.red {
+    color: red;
+  }
 </style>
 
 <div class="grid">
@@ -79,14 +87,14 @@
 
   <% if (typeof totalReceived !== 'undefined' && totalReceived !== null) { %>
     <div class="card">
-      <div class="number">₹<%= totalReceived %></div>
+      <div class="number green">₹<%= totalReceived %></div>
       <div class="category">Total Income</div>
     </div>
   <% } %>
 
   <% if (typeof totalLoss !== 'undefined' && totalLoss !== null) { %>
     <div class="card">
-      <div class="number">₹<%= totalLoss %></div>
+      <div class="number red">₹<%= totalLoss %></div>
       <div class="category">Total Expense</div>
     </div>
   <% } %>
@@ -100,14 +108,14 @@
 
   <% if (typeof totalReceivedMonth !== 'undefined' && totalReceivedMonth !== null) { %>
     <div class="card">
-      <div class="number">₹<%= totalReceivedMonth %></div>
+      <div class="number green">₹<%= totalReceivedMonth %></div>
       <div class="category">Income This Month</div>
     </div>
   <% } %>
 
   <% if (typeof totalLossMonth !== 'undefined' && totalLossMonth !== null) { %>
     <div class="card">
-      <div class="number">₹<%= totalLossMonth %></div>
+      <div class="number red">₹<%= totalLossMonth %></div>
       <div class="category">Expense This Month</div>
     </div>
   <% } %>
@@ -121,14 +129,14 @@
 
   <% if (typeof totalReceivedToday !== 'undefined' && totalReceivedToday !== null) { %>
     <div class="card">
-      <div class="number">₹<%= totalReceivedToday %></div>
+      <div class="number green">₹<%= totalReceivedToday %></div>
       <div class="category">Income Today</div>
     </div>
   <% } %>
 
   <% if (typeof totalLossToday !== 'undefined' && totalLossToday !== null) { %>
     <div class="card">
-      <div class="number">₹<%= totalLossToday %></div>
+      <div class="number red">₹<%= totalLossToday %></div>
       <div class="category">Expense Today</div>
     </div>
   <% } %>
@@ -142,14 +150,14 @@
 
   <% if (typeof mostSpentCategoryAmount !== 'undefined' && mostSpentCategoryAmount !== null && typeof mostSpentCategoryThisMonth !== 'undefined' && mostSpentCategoryThisMonth !== null) { %>
     <div class="card">
-      <div class="number">₹<%= mostSpentCategoryAmount %></div>
+      <div class="number red">₹<%= mostSpentCategoryAmount %></div>
       <div class="category">Most Spent Last Month: <span class="highlight"><%= formatCategory(mostSpentCategoryThisMonth) %></span></div>
     </div>
   <% } %>
 
   <% if (typeof mostReceivedCategoryAmount !== 'undefined' && mostReceivedCategoryAmount !== null && typeof mostReceivedCategoryLastMonth !== 'undefined' && mostReceivedCategoryLastMonth !== null) { %>
     <div class="card">
-      <div class="number">₹<%= mostReceivedCategoryAmount %></div>
+      <div class="number green">₹<%= mostReceivedCategoryAmount %></div>
       <div class="category">Most Income Last Month: <span class="highlight"><%= formatCategory(mostReceivedCategoryLastMonth) %></span></div>
     </div>
   <% } %>
