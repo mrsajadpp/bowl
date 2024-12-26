@@ -86,7 +86,6 @@ form .input_text {
     margin-bottom: 10px;
     display: flex;
     flex-direction: row;
-    height: 45px;
     overflow: hidden;
 }
 
