@@ -17,6 +17,13 @@ function isPastDate(dateString) {
     return inputDate < currentDate;
 }
 
+function convertToISO(dateString) {
+    const [day, month, year] = dateString.split('/');  // Split the string into day, month, and year
+    // Construct the ISO string with 00:00:00.000Z time
+    const isoDateString = `${year}-${month}-${day}T00:00:00.000Z`;
+    return isoDateString;  // Return the ISO formatted string
+}
+
 // GET route for signup page
 router.get('/signup', (req, res) => {
     try {
@@ -95,7 +102,7 @@ router.post('/signup', async (req, res) => {
         }
 
         // Create new user
-        const newUser = new User({ user_name, email, dob, password, position, profile_url, sex });
+        const newUser = new User({ user_name, email, dob: convertToISO(dob), password, position, profile_url, sex });
         await newUser.save();
 
         // Remove password from user object before adding to session

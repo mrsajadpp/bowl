@@ -60,6 +60,16 @@ const transactionSchema = new mongoose.Schema({
     timestamps: true
 });
 
+// transactionSchema.pre('save', function(next) {
+//     if (this.isModified('transaction_date') || this.isNew) {
+//         if (typeof this.transaction_date === 'string' && this.transaction_date.includes('/')) {
+//             const [day, month, year] = this.transaction_date.split('/').map(Number);
+//             this.transaction_date = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+//         }
+//     }
+//     next();
+// });
+
 const Transaction = mongoose.model('Transaction', transactionSchema);
 
 module.exports = Transaction;

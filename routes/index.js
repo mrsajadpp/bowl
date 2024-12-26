@@ -5,6 +5,14 @@ const Transaction = require('../models/transaction');
 const User = require('../models/user');
 const { default: mongoose } = require('mongoose');
 
+
+function convertToISO(dateString) {
+    const [day, month, year] = dateString.split('/');  // Split the string into day, month, and year
+    // Construct the ISO string with 00:00:00.000Z time
+    const isoDateString = `${year}-${month}-${day}T00:00:00.000Z`;
+    return isoDateString;  // Return the ISO formatted string
+}
+
 // Home route
 router.get('/', async (req, res) => {
     try {
@@ -161,7 +169,7 @@ router.post('/transactions', async (req, res) => {
                 user_id: userId,
                 amount: transaction.amount,
                 transaction_type: transaction.transaction_type,
-                transaction_date,
+                transaction_date: convertToISO(transaction_date),
                 transaction_note: transaction.transaction_note,
                 category: transaction.category
             });
