@@ -17,7 +17,7 @@ body {
 }
 
 button,
-input {
+input, select {
     outline: none;
 }
 

@@ -34,7 +34,7 @@
         <span>Date of Birth</span>
     </div>
     <div class="input_box">
-        <div class="iput_icon">
+        <div class="input_icon">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
                 stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -79,10 +79,26 @@
         </select>
     </div>
 
-    <div class="input_box">
+    <div class="input_button">
         <button type="submit">Signup</button>
     </div>
+
+    <div class="input_text">
+        <p>If you already have an account, <a href="/auth/login">click here</a> to log in.</p>
+    </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var dateInput = document.getElementById('dob');
+        dateInput.addEventListener('click', function() {
+            dateInput.showPicker();
+        });
+        // Set custom placeholder
+        dateInput.placeholder = "DD/MM/YYYY";
+    });
+</script>
+
 <!-- <div class="form-container">
     <h1>Signup</h1>
 
