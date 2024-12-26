@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
         ]);
 
         const totalLoss = await Transaction.aggregate([
-            { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'loss' } },
+            { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'expense' } },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
 
@@ -58,7 +58,7 @@ router.get('/', async (req, res) => {
             {
                 $match: {
                     user_id: new mongoose.Types.ObjectId(userId),
-                    transaction_type: 'loss',
+                    transaction_type: 'expense',
                     $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, currentMonth] },
@@ -223,7 +223,7 @@ router.get('/history/:year/:month', async (req, res) => {
             {
                 $match: {
                     user_id: new mongoose.Types.ObjectId(userId),
-                    transaction_type: 'loss',
+                    transaction_type: 'expense',
                     $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, parseInt(month)] },
@@ -253,7 +253,7 @@ router.get('/history/:year/:month', async (req, res) => {
             acc[date].transactions.push(transaction);
             if (transaction.transaction_type === 'receive') {
                 acc[date].totalReceived += transaction.amount;
-            } else if (transaction.transaction_type === 'loss') {
+            } else if (transaction.transaction_type === 'expense') {
                 acc[date].totalLoss += transaction.amount;
             }
             acc[date].remainingAmount = acc[date].totalReceived - acc[date].totalLoss;
