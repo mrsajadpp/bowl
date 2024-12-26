@@ -77,8 +77,24 @@ router.get('/', async (req, res) => {
         const currentMonth = new Date().getMonth() + 1;
         const currentYear = new Date().getFullYear();
 
-        const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-        const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+        const lastMonth = new Date().getMonth() + 1;
+        const lastMonthYear = new Date().getFullYear();
+
+        console.log('Last Month:', lastMonth, 'Year:', lastMonthYear);
+
+        let check = await Transaction.find({
+            user_id: new mongoose.Types.ObjectId("676ce56ccc10105bd0fb20de"),
+            transaction_type: "income",
+            transaction_date: {
+                $gte: new Date("2024-11-01T00:00:00Z"),
+                $lte: new Date("2024-11-30T23:59:59Z")
+            }
+        });
+
+
+        console.log(check);
+
+
 
         const totalReceivedMonth = await Transaction.aggregate([
             {
@@ -157,6 +173,9 @@ router.get('/', async (req, res) => {
         ]);
 
         const mostReceivedCategory = mostReceivedCategoryLastMonth.length > 0 ? mostReceivedCategoryLastMonth[0] : { _id: null, total: 0 };
+
+
+        console.log(mostReceivedCategoryLastMonth);
 
         res.render('index', {
             title: 'Home',

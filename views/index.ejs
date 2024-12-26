@@ -1,43 +1,121 @@
+<style>
+  :root {
+    --primary-color: #654cbd;
+    --text-color: #333;
+    --highlight-color: #654cbd;
+  }
 
-<h1>Welcome, <%= user.user_name %>!</h1>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
 
-<% if (error) { %>
-  <p class="error">
-    <%= error %>
-  </p>
-  <% } %>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 15px;
+  }
 
-    <div class="summary-container">
-      <h2>Lifetime Summary</h2>
-      <p><strong>Total Received:</strong>
-        <%= totalReceived %>
-      </p>
-      <p><strong>Total Expense:</strong>
-        <%= totalLoss %>
-      </p>
-      <p><strong>Remaining Amount:</strong>
-        <%= remainingAmount %>
-      </p>
+  .card {
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid #ccc;
+  }
+
+  .card .number {
+    font-size: 1.5rem;
+    color: var(--highlight-color);
+    font-weight: bold;
+  }
+
+  .card .category {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+      padding: 0.8rem;
+    }
+
+    .card .number {
+      font-size: 1.3rem;
+    }
+
+    .card .category {
+      font-size: 1rem;
+    }
+  }
+</style>
+<div class="grid">
+  <div class="card">
+    <div class="number">₹<%= totalReceived %>
     </div>
-
-    <div class="summary-container">
-      <h2>Current Month Summary</h2>
-      <p><strong>Total Received:</strong>
-        <%= totalReceivedMonth %>
-      </p>
-      <p><strong>Total Expense:</strong>
-        <%= totalLossMonth %>
-      </p>
-      <p><strong>Remaining Amount:</strong>
-        <%= remainingAmountMonth %>
-      </p>
+    <div class="category">Total Income</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= totalLoss %>
     </div>
-
-    <div class="button-container">
-      <a href="/transaction_form">
-        <button type="button">Add Transaction</button>
-      </a>
-      <a href="/history">
-        <button type="button">History</button>
-      </a>
+    <div class="category">Total Expense</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= remainingAmount %>
     </div>
+    <div class="category">Remaining Balance</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= totalReceivedMonth %>
+    </div>
+    <div class="category">Income This Month</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= totalLossMonth %>
+    </div>
+    <div class="category">Expense This Month</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= remainingAmountMonth %>
+    </div>
+    <div class="category">Remaining This Month</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= totalReceivedToday %>
+    </div>
+    <div class="category">Income Today</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= totalLossToday %>
+    </div>
+    <div class="category">Expense Today</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= remainingAmountToday %>
+    </div>
+    <div class="category">Remaining Today</div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= mostSpentCategoryAmount %>
+    </div>
+    <div class="category">Most Spent: <%= mostSpentCategoryThisMonth %>
+    </div>
+  </div>
+  <div class="card">
+    <div class="number">₹<%= mostReceivedCategoryAmount %>
+    </div>
+    <div class="category">Most Income: <%= mostReceivedCategoryLastMonth %>
+    </div>
+  </div>
+</div>
