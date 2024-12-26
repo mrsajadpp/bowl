@@ -97,7 +97,7 @@ userSchema.methods.sendVerificationEmail = async function() {
         }
     });
 
-    const verificationUrl = `http://192.168.1.60:3000/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
+    const verificationUrl = `https://g94x6k7c-3000.inc1.devtunnels.ms/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
 
     const mailOptions = {
         from: 'Bowl. <noreply.tikketu@gmail.com>',
