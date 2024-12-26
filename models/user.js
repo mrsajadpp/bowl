@@ -98,7 +98,7 @@ userSchema.methods.sendVerificationEmail = async function() {
         }
     });
 
-    const verificationUrl = `http://localhost:3000/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
+    const verificationUrl = `http://192.168.1.60:3000/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
 
     const mailOptions = {
         from: 'your-email@gmail.com',
@@ -122,7 +122,7 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
         }
     });
 
-    const resetUrl = `http://localhost:3000/auth/reset-password/${resetToken}`;
+    const resetUrl = `http://192.168.1.60:3000/auth/reset-password/${resetToken}`;
 
     const mailOptions = {
         from: 'your-email@gmail.com',
