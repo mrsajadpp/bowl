@@ -50,7 +50,7 @@ const transactionSchema = new mongoose.Schema({
             },
             message: props => `${props.value} is not a valid category for the transaction type ${props.instance.transaction_type}`
         }
-    }
+    } 
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

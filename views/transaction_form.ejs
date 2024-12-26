@@ -101,27 +101,58 @@
                 <select id="category" name="category"
                     style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;"
                     required>
-                    <option value="salary" <%=form_data && form_data.category==='salary' ? 'selected' : '' %>>Salary
-                    </option>
-                    <option value="gift" <%=form_data && form_data.category==='gift' ? 'selected' : '' %>>Gift</option>
-                    <option value="investment" <%=form_data && form_data.category==='investment' ? 'selected' : '' %>
-                        >Investment</option>
-                    <option value="food" <%=form_data && form_data.category==='food' ? 'selected' : '' %>>Food</option>
-                    <option value="transportation" <%=form_data && form_data.category==='transportation' ? 'selected'
-                        : '' %>>Transportation</option>
-                    <option value="entertainment" <%=form_data && form_data.category==='entertainment' ? 'selected' : ''
-                        %>>Entertainment</option>
-                    <option value="bills" <%=form_data && form_data.category==='bills' ? 'selected' : '' %>>Bills
-                    </option>
-                    <option value="shopping" <%=form_data && form_data.category==='shopping' ? 'selected' : '' %>
-                        >Shopping</option>
-                    <option value="health" <%=form_data && form_data.category==='health' ? 'selected' : '' %>>Health
-                    </option>
-                    <option value="other" <%=form_data && form_data.category==='other' ? 'selected' : '' %>>Other
-                    </option>
+                    <!-- Options will be populated by JavaScript -->
                 </select>
             </div>
 
             <button type="submit"
                 style="width: 100%; padding: 12px 0; font-size: 18px; font-weight: bold; background-color: #0078e8; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
         </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const expenseCategories = [
+            "Housing", "Utilities", "Groceries", "Transportation", "Healthcare", "Entertainment", "Dining Out", "Clothing",
+            "Education", "Travel", "Personal Care", "Fitness", "Insurance", "Debt Repayment", "Savings", "Investments",
+            "Technology", "Gifts", "Charity", "Childcare", "Pets", "Home Improvement", "Subscriptions", "Legal Fees",
+            "Events & Celebrations", "Professional Services", "Taxes", "Luxury", "Hobbies", "Alcohol & Tobacco",
+            "Fines & Penalties", "Miscellaneous"
+        ];
+
+        const receiveCategories = [
+            "Salary", "Business Revenue", "Freelancing", "Investments", "Rental Income", "Government Benefits", "Gifts",
+            "Inheritances", "Prizes", "Side Hustles", "Royalties", "Crowdfunding", "Refunds", "Grants", "Scholarships",
+            "Tips", "Pension", "Dividends", "Alimony/Child Support", "Stock Sales", "Affiliate Marketing", "Consulting Fees",
+            "Event Hosting", "Intellectual Property", "Barter or Trade", "Cryptocurrency", "Reselling", "Loans",
+            "Partnership Shares", "Carpool Income", "Miscellaneous"
+        ];
+
+        const transactionTypeSelect = document.getElementById('transaction_type');
+        const categorySelect = document.getElementById('category');
+
+        function populateCategories(categories) {
+            categorySelect.innerHTML = '';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.toLowerCase().replace(/ /g, '_');
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        transactionTypeSelect.addEventListener('change', function() {
+            if (transactionTypeSelect.value === 'expense') {
+                populateCategories(expenseCategories);
+            } else if (transactionTypeSelect.value === 'receive') {
+                populateCategories(receiveCategories);
+            }
+        });
+
+        // Initial population based on the current selection
+        if (transactionTypeSelect.value === 'expense') {
+            populateCategories(expenseCategories);
+        } else if (transactionTypeSelect.value === 'receive') {
+            populateCategories(receiveCategories);
+        }
+    });
+</script>

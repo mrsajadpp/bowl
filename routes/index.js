@@ -122,6 +122,9 @@ router.post('/transactions', async (req, res) => {
             return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Category is required', form_data: req.body, user: req.session.user, message: null });
         }
 
+        console.log(category);
+        
+
         const newTransaction = new Transaction({
             user_id: userId,
             amount,
