@@ -77,10 +77,29 @@
             </svg>
         </div>
         <select id="position" name="position">
+            <option disabled selected>Position</option>
             <option value="professional" <%=form_data && form_data.position==='professional' ? 'selected' : '' %>
                 >Professional</option>
             <option value="student" <%=form_data && form_data.position==='student' ? 'selected' : '' %>>Student</option>
             <option value="other" <%=form_data && form_data.position==='other' ? 'selected' : '' %>>Other</option>
+        </select>
+    </div>
+    <!-- <div class="label_box">
+        <span>Sex</span>
+    </div> -->
+    <div class="input_box">
+        <div class="input_icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d='M14.232 9.747a6 6 0 1 0-8.465 8.506 6 6 0 0 0 8.465-8.506m0 0L20 4m0 0h-4m4 0v4' />
+            </svg>
+        </div>
+        <select id="sex" name="sex">
+            <option disabled selected>Sex</option>
+            <option value="male" <%=form_data && form_data.sex==='male' ? 'selected' : '' %>
+                >Male</option>
+            <option value="female" <%=form_data && form_data.sex==='female' ? 'selected' : '' %>>Female</option>
+            <option value="other" <%=form_data && form_data.sex==='other' ? 'selected' : '' %>>Other</option>
         </select>
     </div>
 
