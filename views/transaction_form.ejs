@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/css/auth.css">
+<link rel="stylesheet" href="/css/transaction.css">
 <div class="auth_container">
     <form action="/transactions" method="POST" class="auth_form">
         <!-- Transaction Date -->
@@ -20,7 +20,7 @@
             <!-- Transaction entries will be added here -->
         </div>
 
-        <div class="input_button">
+        <div class="input_button secondary">
             <button type="button" id="addTransactionButton" class="secondary">Add Another Transaction</button>
         </div>
 
@@ -72,66 +72,83 @@
                 <option value="">Select Category</option>
             </select>
         </div>
+
+        <div class="input_button box" id="removeTransactionButton">
+            <button type="button" class="tertary">Remove Transaction</button>
+        </div>
     </div>
 </template>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const expenseCategories = [
-            "Housing", "Utilities", "Groceries", "Transportation", "Healthcare", "Entertainment", "Dining Out", "Clothing",
-            "Education", "Travel", "Personal Care", "Fitness", "Insurance", "Debt Repayment", "Savings", "Investments",
-            "Technology", "Gifts", "Charity", "Childcare", "Pets", "Home Improvement", "Subscriptions", "Legal Fees",
-            "Events and Celebrations", "Professional Services", "Taxes", "Luxury", "Hobbies", "Alcohol and Tobacco",
-            "Fines and Penalties", "Miscellaneous"
-        ];
+    const expenseCategories = [
+        "Housing", "Utilities", "Groceries", "Transportation", "Healthcare", "Entertainment", "Dining Out", "Clothing",
+        "Education", "Travel", "Personal Care", "Fitness", "Insurance", "Debt Repayment", "Savings", "Investments",
+        "Technology", "Gifts", "Charity", "Childcare", "Pets", "Home Improvement", "Subscriptions", "Legal Fees",
+        "Events and Celebrations", "Professional Services", "Taxes", "Luxury", "Hobbies", "Alcohol and Tobacco",
+        "Fines and Penalties", "Miscellaneous"
+    ];
 
-        const receiveCategories = [
-            "Salary", "Business Revenue", "Freelancing", "Investments", "Rental Income", "Government Benefits", "Gifts",
-            "Inheritances", "Prizes", "Side Hustles", "Royalties", "Crowdfunding", "Refunds", "Grants", "Scholarships",
-            "Tips", "Pension", "Dividends", "Alimony/Child Support", "Stock Sales", "Affiliate Marketing", "Consulting Fees",
-            "Event Hosting", "Intellectual Property", "Barter or Trade", "Cryptocurrency", "Reselling", "Loans",
-            "Partnership Shares", "Carpool Income", "Miscellaneous"
-        ];
+    const receiveCategories = [
+        "Salary", "Business Revenue", "Freelancing", "Investments", "Rental Income", "Government Benefits", "Gifts",
+        "Inheritances", "Prizes", "Side Hustles", "Royalties", "Crowdfunding", "Refunds", "Grants", "Scholarships",
+        "Tips", "Pension", "Dividends", "Alimony/Child Support", "Stock Sales", "Affiliate Marketing", "Consulting Fees",
+        "Event Hosting", "Intellectual Property", "Barter or Trade", "Cryptocurrency", "Reselling", "Loans",
+        "Partnership Shares", "Carpool Income", "Miscellaneous"
+    ];
 
-        const transactionsContainer = document.getElementById('transactionsContainer');
-        const addTransactionButton = document.getElementById('addTransactionButton');
-        const template = document.getElementById('transactionTemplate');
+    const transactionsContainer = document.getElementById('transactionsContainer');
+    const addTransactionButton = document.getElementById('addTransactionButton');
+    const template = document.getElementById('transactionTemplate');
 
-        function populateCategories(selectElement, categories) {
-            // Keep the first option
-            selectElement.innerHTML = '<option value="">Select Category</option>';
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category.toLowerCase().replace(/ /g, '_');
-                option.textContent = category;
-                selectElement.appendChild(option);
-            });
+    let transactionCount = 0;  // Counter for tracking the number of transactions
+
+    function populateCategories(selectElement, categories) {
+        // Keep the first option
+        selectElement.innerHTML = '<option value="">Select Category</option>';
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.toLowerCase().replace(/ /g, '_');
+            option.textContent = category;
+            selectElement.appendChild(option);
+        });
+    }
+
+    function addTransactionEntry() {
+        const clone = template.content.cloneNode(true);
+        const transactionTypeSelect = clone.querySelector('.transaction-type');
+        const categorySelect = clone.querySelector('.category-select');
+        const removeButton = clone.querySelector('#removeTransactionButton');
+        
+        transactionCount++;  // Increment the transaction count
+
+        // Only show the "Remove Transaction" button for transactions after the first one
+        if (transactionCount > 1) {
+            removeButton.style.display = 'flex';  // Show remove button
+        } else {
+            removeButton.style.display = 'none';  // Hide remove button for the first transaction
         }
 
-        function addTransactionEntry() {
-            const clone = template.content.cloneNode(true);
-            const transactionTypeSelect = clone.querySelector('.transaction-type');
-            const categorySelect = clone.querySelector('.category-select');
+        transactionTypeSelect.addEventListener('change', function () {
+            if (this.value === 'expense') {
+                populateCategories(categorySelect, expenseCategories);
+            } else {
+                populateCategories(categorySelect, receiveCategories);
+            }
+        });
 
-            transactionTypeSelect.addEventListener('change', function () {
-                if (this.value === 'expense') {
-                    populateCategories(categorySelect, expenseCategories);
-                } else {
-                    populateCategories(categorySelect, receiveCategories);
-                }
-            });
+        // Initialize categories based on default selection
+        populateCategories(categorySelect, receiveCategories);
 
-            // Initialize categories based on default selection
-            populateCategories(categorySelect, receiveCategories);
+        transactionsContainer.appendChild(clone);
+    }
 
-            transactionsContainer.appendChild(clone);
-        }
+    addTransactionButton.addEventListener('click', addTransactionEntry);
 
-        addTransactionButton.addEventListener('click', addTransactionEntry);
+    // Add first transaction entry
+    addTransactionEntry();
+});
 
-        // Add first transaction entry
-        addTransactionEntry();
-    });
 </script>
 
 <script>
