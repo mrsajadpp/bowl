@@ -7,6 +7,7 @@ header {
     background: #fff;
     position: fixed;
     top: 0px;
+    z-index: 998;
 }
 
 header.mobile_header {
@@ -57,4 +58,115 @@ header.mobile_header .header_logo a {
 
 header.mobile_header .header_logo a img {
     width: 120px;
+}
+
+.mobile_menu {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    background: #fff;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+.mobile_menu.active {
+    transform: translateX(0%);
+}
+
+.mobile_menu .menu_header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    border-bottom: 1px solid #ccc;
+}
+
+.mobile_menu .menu_header .menu_close {
+    width: 60px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile_menu .menu_header .menu_close button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.mobile_menu .menu {
+    width: 100%;
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    overflow-y: auto;
+}
+
+.mobile_menu .menu ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    border-bottom: 1px solid #ccc;
+}
+
+.mobile_menu .menu ul li {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding: 15px 20px;
+}
+
+.mobile_menu .menu ul li a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    text-decoration: none;
+    color: #000;
+}
+
+.mobile_menu .menu ul li a .menu_logo {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.mobile_menu .menu ul li a .menu_text {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.mobile_menu .menu ul li a .feedback_logo,
+.mobile_menu .menu ul li a .feedback_text {
+    color: #654cbd;
 }
