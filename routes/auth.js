@@ -4,6 +4,19 @@ const crypto = require('crypto');
 const User = require('../models/user');
 const router = express.Router();
 
+function isPastDate(dateString) {
+    // Parse the input date string
+    const [day, month, year] = dateString.split('/').map(Number);
+    const inputDate = new Date(year, month - 1, day); // JavaScript months are 0-based
+
+    // Get the current date without the time part
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set time to 00:00:00 to ignore time
+
+    // Compare the dates
+    return inputDate < currentDate;
+}
+
 // GET route for signup page
 router.get('/signup', (req, res) => {
     try {
@@ -69,6 +82,10 @@ router.post('/signup', async (req, res) => {
         // Validate sex
         if (!sex) {
             return res.status(400).render('signup', { title: 'Signup', error: 'Sex is required', form_data: req.body, message: null });
+        }
+
+        if (!isPastDate(dob)) {
+            return res.status(400).render('signup', { title: 'Signup', error: 'Date of birth cannot be in the future', form_data: req.body, message: null });
         }
 
         // Check if user already exists

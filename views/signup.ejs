@@ -15,7 +15,8 @@
                 <path d='M15 7.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m4.5 13c-.475-9.333-14.525-9.333-15 0' />
             </svg>
         </div>
-        <input type="text" id="user_name" placeholder="Full Name" name="user_name" value="<%= form_data ? form_data.user_name : '' %>">
+        <input type="text" id="user_name" placeholder="Full Name" name="user_name"
+            value="<%= form_data ? form_data.user_name : '' %>">
     </div>
     <!-- <div class="label_box">
         <span>Email</span>
@@ -43,7 +44,8 @@
                     d='M20 21v-8c0-1.09-.91-2-2-2H6c-1.09 0-2 .91-2 2v8m-2 0h20M7 7v4m5-4v4m5-4v4M7 4v.5m5-.5v.5m5-.5v.5' />
             </svg>
         </div>
-        <input type="date" id="dob" name="dob" value="<%= form_data ? form_data.dob : '' %>">
+        <input id="dateInput" oninput="formatDate(this)" placeholder="Select a date (dd/mm/yyy)" id="dob" name="dob"
+            value="<%= form_data ? form_data.dob : '' %>">
     </div>
     <!-- <div class="label_box">
         <span>Password</span>
@@ -92,16 +94,35 @@
 </form>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var dateInput = document.getElementById('dob');
-        dateInput.addEventListener('click', function() {
+        dateInput.addEventListener('click', function () {
             dateInput.showPicker();
         });
         // Set custom placeholder
         dateInput.placeholder = "DD/MM/YYYY";
-        
+
         // Restrict to past dates only
         var today = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('max', today);
     });
+
+    function formatDate(input) {
+        // Remove non-digit characters
+        let value = input.value.replace(/\D/g, '');
+
+        // Limit to 8 digits (DDMMYYYY)
+        if (value.length > 8) {
+            value = value.slice(0, 8);
+        }
+
+        // Add slashes at appropriate positions
+        if (value.length > 4) {
+            value = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4);
+        } else if (value.length > 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2);
+        }
+
+        input.value = value;
+    }
 </script>
