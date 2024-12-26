@@ -193,6 +193,7 @@ header.mobile_header .header_logo a img {
     align-items: center;
     justify-content: start;
     padding:40px 30px;
+    border-bottom: 1px solid #ccc;
 }
 
 .desktop_header .header_logo a {
@@ -225,6 +226,7 @@ header.mobile_header .header_logo a img {
     list-style: none;
     padding: 0px;
     margin: 0px;
+    border-bottom: 1px solid #ccc;
 }
 
 .desktop_header .header_menu ul li {
