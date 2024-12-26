@@ -201,7 +201,7 @@ router.post('/reset-password', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).render('reset_password_request', { title: 'Reset Password', error: 'Server error', message: null });
-    }
+    } 
 });
 
 // GET route for password reset form
