@@ -92,7 +92,7 @@ userSchema.methods.sendVerificationEmail = async function() {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'noreply.tikketu@gmail.com',
+            user: 'Bowl. <noreply.tikketu@gmail.com>',
             pass: process.env.APP_PASS
         }
     });
@@ -100,7 +100,7 @@ userSchema.methods.sendVerificationEmail = async function() {
     const verificationUrl = `http://192.168.1.60:3000/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
 
     const mailOptions = {
-        from: 'your-email@gmail.com',
+        from: 'Bowl. <noreply.tikketu@gmail.com>',
         to: user.email,
         subject: 'Email Verification',
         text: `Please verify your email by clicking the following link: ${verificationUrl}`
@@ -116,7 +116,7 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'noreply.tikketu@gmail.com',
+            user: 'Bowl. <noreply.tikketu@gmail.com>',
             pass: process.env.APP_PASS
         }
     });
@@ -124,7 +124,7 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
     const resetUrl = `http://192.168.1.60:3000/auth/reset-password/${resetToken}`;
 
     const mailOptions = {
-        from: 'your-email@gmail.com',
+        from: 'Bowl. <noreply.tikketu@gmail.com>',
         to: user.email,
         subject: 'Password Reset',
         text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}. This link will expire in 6 minutes.`
