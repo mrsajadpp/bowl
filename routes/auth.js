@@ -241,12 +241,12 @@ router.post('/reset-password/:token', async (req, res) => {
         }
 
         // Hash the new password and save it
-        user.password = await bcrypt.hash(password, 10);
+        user.password = await password;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
         await user.save();
 
-        res.render('reset_password_form', { title: 'Reset Password', message: 'Password has been changed successfully.', error: null });
+        res.redirect('/auth/login');
     } catch (err) {
         console.error(err);
         res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', token, message: null });
