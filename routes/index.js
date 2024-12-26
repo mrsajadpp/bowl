@@ -305,7 +305,8 @@ router.get('/history/:year/:month', async (req, res) => {
             totalLoss: totalLossAmount,
             remainingAmount,
             user,
-            error: null
+            error: null,
+            message: null
         });
     } catch (err) {
         res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user, message: null });
