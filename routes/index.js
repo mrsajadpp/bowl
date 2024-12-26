@@ -99,7 +99,7 @@ router.get('/transaction_form', (req, res) => {
 // Route to handle form submission
 router.post('/transactions', async (req, res) => {
     try {
-        const { amount, transaction_type, transaction_note, transaction_date, note, category } = req.body;
+        const { amount, transaction_type, transaction_date, note, category } = req.body;
         const userId = req.session.user._id;
 
         // Validate user ID
@@ -118,9 +118,6 @@ router.post('/transactions', async (req, res) => {
         if (!transaction_date) {
             return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction date is required', form_data: req.body, user: req.session.user, message: null });
         }
-        if (!transaction_note) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Note date is required', form_data: req.body, user: req.session.user, message: null });
-        }
         if (!category) {
             return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Category is required', form_data: req.body, user: req.session.user, message: null });
         }
@@ -131,7 +128,6 @@ router.post('/transactions', async (req, res) => {
             transaction_type,
             transaction_date,
             note,
-            transaction_note,
             category
         });
 

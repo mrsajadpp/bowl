@@ -36,10 +36,6 @@ const transactionSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    transaction_note: {
-        type: String,
-        required: true
-    },
     category: {
         type: String,
         required: true,
