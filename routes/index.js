@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 
         // Aggregate data for full lifetime
         const totalReceived = await Transaction.aggregate([
-            { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'receive' } },
+            { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'income' } },
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]);
 
@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
             {
                 $match: {
                     user_id: new mongoose.Types.ObjectId(userId),
-                    transaction_type: 'receive',
+                    transaction_type: 'income',
                     $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, currentMonth] },
@@ -123,8 +123,6 @@ router.post('/transactions', async (req, res) => {
                 message: null
             });
         }
-
-        console.log(req.body);
 
         // Validate and save each transaction entry
         const transactions = Array.isArray(req.body.amount)
@@ -245,7 +243,7 @@ router.get('/history/:year/:month', async (req, res) => {
             {
                 $match: {
                     user_id: new mongoose.Types.ObjectId(userId),
-                    transaction_type: 'receive',
+                    transaction_type: 'income',
                     $expr: {
                         $and: [
                             { $eq: [{ $month: '$transaction_date' }, parseInt(month)] },
@@ -289,7 +287,7 @@ router.get('/history/:year/:month', async (req, res) => {
                 };
             }
             acc[date].transactions.push(transaction);
-            if (transaction.transaction_type === 'receive') {
+            if (transaction.transaction_type === 'income') {
                 acc[date].totalReceived += transaction.amount;
             } else if (transaction.transaction_type === 'expense') {
                 acc[date].totalLoss += transaction.amount;

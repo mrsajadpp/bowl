@@ -27,30 +27,31 @@ const transactionSchema = new mongoose.Schema({
         type: String,
         required: true,
         validate: {
-            validator: function(value) {
-                const incomeCategories = [
-                    "Housing", "Utilities", "Groceries", "Transportation", "Healthcare", "Entertainment", "Dining_Out", "Clothing",
-                    "Education", "Travel", "Personal_Care", "Fitness", "Insurance", "Debt_Repayment", "Savings", "Investments",
-                    "Technology", "Gifts", "Charity", "Childcare", "Pets", "Home_Improvement", "Subscriptions", "Legal_Fees",
-                    "Events_and_Celebrations", "Professional_Services", "Taxes", "Luxury", "Hobbies", "Alcohol_and_Tobacco",
-                    "Fines_and_Penalties", "Miscellaneous"
+            validator: function (value) {
+                const receiveCategories = [
+                    "salary", "business_revenue", "freelancing", "investments", "rental_income", "government_benefits", "gifts",
+                    "inheritances", "prizes", "side_hustles", "royalties", "crowdfunding", "refunds", "grants", "scholarships",
+                    "tips", "pension", "dividends", "alimony/child_support", "stock_sales", "affiliate_marketing", "consulting_fees",
+                    "event_hosting", "intellectual_property", "barter_or_trade", "cryptocurrency", "reselling", "loans",
+                    "partnership_shares", "carpool_income", "miscellaneous"
                 ];
+
                 const expenseCategories = [
-                    "Salary", "Business_Revenue", "Freelancing", "Investments", "Rental_Income", "Government_Benefits", "Gifts",
-                    "Inheritances", "Prizes", "Side_Hustles", "Royalties", "Crowdfunding", "Refunds", "Grants", "Scholarships",
-                    "Tips", "Pension", "Dividends", "Alimony/Child_Support", "Stock_Sales", "Affiliate_Marketing", "Consulting_Fees",
-                    "Event_Hosting", "Intellectual_Property", "Barter_or_Trade", "Cryptocurrency", "Reselling", "Loans",
-                    "Partnership_Shares", "Carpool_Income", "Miscellaneous"
+                    "housing", "utilities", "groceries", "transportation", "healthcare", "entertainment", "dining_out", "clothing",
+                    "education", "travel", "personal_care", "fitness", "insurance", "debt_repayment", "savings", "investments",
+                    "technology", "gifts", "charity", "childcare", "pets", "home_improvement", "subscriptions", "legal_fees",
+                    "events_and_celebrations", "professional_services", "taxes", "luxury", "hobbies", "alcohol_and_tobacco",
+                    "fines_and_penalties", "miscellaneous"
                 ];
-                
+
                 if (this.transaction_type === 'income') {
-                    return incomeCategories.includes(value);
+                    return receiveCategories.includes(value.toLowerCase());
                 } else if (this.transaction_type === 'expense') {
-                    return expenseCategories.includes(value);
+                    return expenseCategories.includes(value.toLowerCase());
                 }
                 return false;
             },
-            message: function(props) {
+            message: function (props) {
                 return `${props.value} is not a valid category for the selected transaction type`;
             }
         }

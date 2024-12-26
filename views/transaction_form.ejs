@@ -120,7 +120,7 @@
                 <div style="margin-bottom: 15px;">
                     <label for="transaction_type" style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 5px;">Transaction Type:</label>
                     <select name="transaction_type" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;" required>
-                        <option value="receive">Receive</option>
+                        <option value="income">Income</option>
                         <option value="expense">Expense</option>
                     </select>
                 </div>
@@ -139,7 +139,7 @@
             transactionTypeSelect.addEventListener('change', function() {
                 if (transactionTypeSelect.value === 'expense') {
                     populateCategories(categorySelect, expenseCategories);
-                } else if (transactionTypeSelect.value === 'receive') {
+                } else if (transactionTypeSelect.value === 'income') {
                     populateCategories(categorySelect, receiveCategories);
                 }
             });
@@ -147,7 +147,7 @@
             // Initial population based on the current selection
             if (transactionTypeSelect.value === 'expense') {
                 populateCategories(categorySelect, expenseCategories);
-            } else if (transactionTypeSelect.value === 'receive') {
+            } else if (transactionTypeSelect.value === 'income') {
                 populateCategories(categorySelect, receiveCategories);
             }
         }
