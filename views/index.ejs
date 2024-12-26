@@ -86,165 +86,146 @@
   }
 
   .new_transaction_button a button {
-    background-color: #000;
+    background-color: #000; 
     position: fixed;
     bottom: 20px;
     right: 10px;
     padding: 10px 20px;
-    color: white;
+    color: white; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease, transform 0.3s ease;
-  }
+}
 </style>
 
-<% function formatCategory(category) { // Replace underscores with spaces and capitalize each word return category
-  .split('_') .map(word=> word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-  .join(' ');
-  }
-  %>
+<% 
+function formatCategory(category) {
+  // Replace underscores with spaces and capitalize each word
+  return category
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+%>
 
-  <!-- Today's Section -->
-  <div class="section">
-    <div class="section-title">Today’s Overview</div>
-    <div class="grid">
-      <% if (typeof totalReceivedToday !=='undefined' && totalReceivedToday !==null) { %>
-        <div class="card">
-          <div class="number green">₹<%= totalReceivedToday %>
-          </div>
-          <div class="category">Income Today</div>
-        </div>
-        <% } %>
-
-          <% if (typeof totalLossToday !=='undefined' && totalLossToday !==null) { %>
-            <div class="card">
-              <div class="number red">₹<%= totalLossToday %>
-              </div>
-              <div class="category">Expense Today</div>
-            </div>
-            <% } %>
-
-              <% if (typeof remainingAmountToday !=='undefined' && remainingAmountToday !==null) { %>
-                <div class="card">
-                  <div class="number">₹<%= remainingAmountToday %>
-                  </div>
-                  <div class="category">Remaining Balance Today</div>
-                </div>
-                <% } %>
-    </div>
-  </div>
-
-  <!-- This Month’s Section -->
-  <div class="section">
-    <div class="section-title">This Month’s Overview</div>
-    <div class="grid">
-      <% if (typeof totalReceivedMonth !=='undefined' && totalReceivedMonth !==null) { %>
-        <div class="card">
-          <div class="number green">₹<%= totalReceivedMonth %>
-          </div>
-          <div class="category">Income This Month</div>
-        </div>
-        <% } %>
-
-          <% if (typeof totalLossMonth !=='undefined' && totalLossMonth !==null) { %>
-            <div class="card">
-              <div class="number red">₹<%= totalLossMonth %>
-              </div>
-              <div class="category">Expense This Month</div>
-            </div>
-            <% } %>
-
-              <% if (typeof remainingAmountMonth !=='undefined' && remainingAmountMonth !==null) { %>
-                <div class="card">
-                  <div class="number">₹<%= remainingAmountMonth %>
-                  </div>
-                  <div class="category">Remaining This Month</div>
-                </div>
-                <% } %>
-    </div>
-  </div>
-
-  <!-- Most Spent and Most Received Categories -->
-  <% if ( (typeof mostSpentCategoryAmount !=='undefined' && mostSpentCategoryAmount !==null && typeof
-    mostSpentCategoryThisMonth !=='undefined' && mostSpentCategoryThisMonth !==null) || (typeof
-    mostReceivedCategoryAmount !=='undefined' && mostReceivedCategoryAmount !==null && typeof
-    mostReceivedCategoryLastMonth !=='undefined' && mostReceivedCategoryLastMonth !==null) ) { %>
-    <div class="section">
-      <div class="section-title">Category Insights</div>
-      <div class="grid">
-        <% if (typeof mostSpentCategoryAmount !=='undefined' && mostSpentCategoryAmount !==null && typeof
-          mostSpentCategoryThisMonth !=='undefined' && mostSpentCategoryThisMonth !==null) { %>
-          <div class="card">
-            <div class="number red">₹<%= mostSpentCategoryAmount %>
-            </div>
-            <div class="category">Most Spent Last Month: <span class="highlight">
-                <%= formatCategory(mostSpentCategoryThisMonth) %>
-              </span></div>
-          </div>
-          <% } %>
-
-            <% if (typeof mostReceivedCategoryAmount !=='undefined' && mostReceivedCategoryAmount !==null && typeof
-              mostReceivedCategoryLastMonth !=='undefined' && mostReceivedCategoryLastMonth !==null) { %>
-              <div class="card">
-                <div class="number green">₹<%= mostReceivedCategoryAmount %>
-                </div>
-                <div class="category">Most Income Last Month: <span class="highlight">
-                    <%= formatCategory(mostReceivedCategoryLastMonth) %>
-                  </span></div>
-              </div>
-              <% } %>
+<!-- Today's Section -->
+<div class="section">
+  <div class="section-title">Today’s Overview</div>
+  <div class="grid">
+    <% if (typeof totalReceivedToday !== 'undefined' && totalReceivedToday !== null) { %>
+      <div class="card">
+        <div class="number green">₹<%= totalReceivedToday %></div>
+        <div class="category">Income Today</div>
       </div>
-    </div>
     <% } %>
 
+    <% if (typeof totalLossToday !== 'undefined' && totalLossToday !== null) { %>
+      <div class="card">
+        <div class="number red">₹<%= totalLossToday %></div>
+        <div class="category">Expense Today</div>
+      </div>
+    <% } %>
 
-      <!-- Total Overview Section -->
-      <div class="section">
-        <div class="section-title">Total Overview</div>
-        <div class="grid">
-          <% if (typeof totalReceived !=='undefined' && totalReceived !==null) { %>
-            <div class="card">
-              <div class="number green">₹<%= totalReceived %>
-              </div>
-              <div class="category">Total Income</div>
-            </div>
-            <% } %>
+    <% if (typeof remainingAmountToday !== 'undefined' && remainingAmountToday !== null) { %>
+      <div class="card">
+        <div class="number">₹<%= remainingAmountToday %></div>
+        <div class="category">Remaining Balance Today</div>
+      </div>
+    <% } %>
+  </div>
+</div>
 
-              <% if (typeof totalLoss !=='undefined' && totalLoss !==null) { %>
-                <div class="card">
-                  <div class="number red">₹<%= totalLoss %>
-                  </div>
-                  <div class="category">Total Expense</div>
-                </div>
-                <% } %>
+<!-- This Month’s Section -->
+<div class="section">
+  <div class="section-title">This Month’s Overview</div>
+  <div class="grid">
+    <% if (typeof totalReceivedMonth !== 'undefined' && totalReceivedMonth !== null) { %>
+      <div class="card">
+        <div class="number green">₹<%= totalReceivedMonth %></div>
+        <div class="category">Income This Month</div>
+      </div>
+    <% } %>
 
-                  <% if (typeof remainingAmount !=='undefined' && remainingAmount !==null) { %>
-                    <div class="card">
-                      <div class="number">₹<%= remainingAmount %>
-                      </div>
-                      <div class="category">Remaining Balance</div>
-                    </div>
-                    <% } %>
+    <% if (typeof totalLossMonth !== 'undefined' && totalLossMonth !== null) { %>
+      <div class="card">
+        <div class="number red">₹<%= totalLossMonth %></div>
+        <div class="category">Expense This Month</div>
+      </div>
+    <% } %>
+
+    <% if (typeof remainingAmountMonth !== 'undefined' && remainingAmountMonth !== null) { %>
+      <div class="card">
+        <div class="number">₹<%= remainingAmountMonth %></div>
+        <div class="category">Remaining This Month</div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Most Spent and Most Received Categories -->
+<% if (
+  (typeof mostSpentCategoryAmount !== 'undefined' && mostSpentCategoryAmount !== null && typeof mostSpentCategoryThisMonth !== 'undefined' && mostSpentCategoryThisMonth !== null) ||
+  (typeof mostReceivedCategoryAmount !== 'undefined' && mostReceivedCategoryAmount !== null && typeof mostReceivedCategoryLastMonth !== 'undefined' && mostReceivedCategoryLastMonth !== null)
+) { %>
+  <div class="section">
+    <div class="section-title">Category Insights</div>
+    <div class="grid">
+      <% if (typeof mostSpentCategoryAmount !== 'undefined' && mostSpentCategoryAmount !== null && typeof mostSpentCategoryThisMonth !== 'undefined' && mostSpentCategoryThisMonth !== null) { %>
+        <div class="card">
+          <div class="number red">₹<%= mostSpentCategoryAmount %></div>
+          <div class="category">Most Spent Last Month: <span class="highlight"><%= formatCategory(mostSpentCategoryThisMonth) %></span></div>
         </div>
-      </div>
+      <% } %>
 
-      <div class="new_transaction_button">
-        <a href="/transaction_form" class="btn btn-primary">
-          <button>
-            <div class="button_text">
-              Add Transaction
-            </div> &nbsp;&nbsp;
-            <div class="button_icon">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-                stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d='M9.533 11.15A1.82 1.82 0 0 0 9 12.438V15h2.578c.483 0 .947-.192 1.289-.534l7.6-7.604a1.82 1.82 0 0 0 0-2.577l-.751-.751a1.82 1.82 0 0 0-2.578 0z' />
-                <path
-                  d='M21 12c0 4.243 0 6.364-1.318 7.682S16.242 21 12 21s-6.364 0-7.682-1.318S3 16.242 3 12s0-6.364 1.318-7.682S7.758 3 12 3' />
-              </svg>
-            </div>
-          </button>
-        </a>
+      <% if (typeof mostReceivedCategoryAmount !== 'undefined' && mostReceivedCategoryAmount !== null && typeof mostReceivedCategoryLastMonth !== 'undefined' && mostReceivedCategoryLastMonth !== null) { %>
+        <div class="card">
+          <div class="number green">₹<%= mostReceivedCategoryAmount %></div>
+          <div class="category">Most Income Last Month: <span class="highlight"><%= formatCategory(mostReceivedCategoryLastMonth) %></span></div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+<% } %>
+
+
+<!-- Total Overview Section -->
+<div class="section">
+  <div class="section-title">Total Overview</div>
+  <div class="grid">
+    <% if (typeof totalReceived !== 'undefined' && totalReceived !== null) { %>
+      <div class="card">
+        <div class="number green">₹<%= totalReceived %></div>
+        <div class="category">Total Income</div>
       </div>
+    <% } %>
+
+    <% if (typeof totalLoss !== 'undefined' && totalLoss !== null) { %>
+      <div class="card">
+        <div class="number red">₹<%= totalLoss %></div>
+        <div class="category">Total Expense</div>
+      </div>
+    <% } %>
+
+    <% if (typeof remainingAmount !== 'undefined' && remainingAmount !== null) { %>
+      <div class="card">
+        <div class="number">₹<%= remainingAmount %></div>
+        <div class="category">Remaining Balance</div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<div class="new_transaction_button">
+  <a href="/transaction_form" class="btn btn-primary">
+    <button>
+      <div class="button_text">
+        Add Transaction
+    </div> &nbsp;
+    <div class="button_icon">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d='M9.533 11.15A1.82 1.82 0 0 0 9 12.438V15h2.578c.483 0 .947-.192 1.289-.534l7.6-7.604a1.82 1.82 0 0 0 0-2.577l-.751-.751a1.82 1.82 0 0 0-2.578 0z'/><path d='M21 12c0 4.243 0 6.364-1.318 7.682S16.242 21 12 21s-6.364 0-7.682-1.318S3 16.242 3 12s0-6.364 1.318-7.682S7.758 3 12 3'/></svg>
+    </div>
+    </button>
+  </a>
+</div>
