@@ -79,6 +79,25 @@
   .card .number.red {
     color: red;
   }
+
+  .new_transaction_button a {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .new_transaction_button a button {
+    background-color: #111739; 
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    padding: 10px 20px;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
 </style>
 
 <% 
@@ -196,4 +215,17 @@ function formatCategory(category) {
       </div>
     <% } %>
   </div>
+</div>
+
+<div class="new_transaction_button">
+  <a href="/transaction_form" class="btn btn-primary">
+    <button>
+      <div class="button_text">
+        Add Transaction
+    </div> &nbsp;&nbsp;
+    <div class="button_icon">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d='M9.533 11.15A1.82 1.82 0 0 0 9 12.438V15h2.578c.483 0 .947-.192 1.289-.534l7.6-7.604a1.82 1.82 0 0 0 0-2.577l-.751-.751a1.82 1.82 0 0 0-2.578 0z'/><path d='M21 12c0 4.243 0 6.364-1.318 7.682S16.242 21 12 21s-6.364 0-7.682-1.318S3 16.242 3 12s0-6.364 1.318-7.682S7.758 3 12 3'/></svg>
+    </div>
+    </button>
+  </a>
 </div>
