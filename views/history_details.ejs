@@ -198,112 +198,105 @@
     <p class="error">
         <%= error %>
     </p>
-    <% } else { %>
-        <div class="summary-cards">
-            <div class="summary-card">
-                <div class="label">Total Income</div>
-                <div class="amount green">₹<%= totalReceived %>
-                </div>
-            </div>
-            <div class="summary-card">
-                <div class="label">Total Expense</div>
-                <div class="amount red">₹<%= totalLoss %>
-                </div>
-            </div>
-            <div class="summary-card">
-                <div class="label">Remaining Amount</div>
-                <div class="amount">₹<%= remainingAmount %>
-                </div>
-            </div>
+<% } else { %>
+    <div class="summary-cards">
+        <div class="summary-card">
+            <div class="label">Total Income</div>
+            <div class="amount green">₹<%= totalReceived.toFixed(2) %></div>
         </div>
+        <div class="summary-card">
+            <div class="label">Total Expense</div>
+            <div class="amount red">₹<%= totalLoss.toFixed(2) %></div>
+        </div>
+        <div class="summary-card">
+            <div class="label">Remaining Amount</div>
+            <div class="amount">₹<%= remainingAmount.toFixed(2) %></div>
+        </div>
+    </div>
 
-        <div class="calendar-grid">
-            <% Object.keys(transactionsByDay).forEach(date=> {
-                const transactions = transactionsByDay[date].transactions;
-                %>
-                <div class="day-card" onclick="showTransactions('<%= date %>')">
-                    <div class="date-header">
-                        <%= new Date(date).toLocaleDateString('en-US', { weekday: 'short' , day: 'numeric' }) %>
+    <div class="calendar-grid">
+        <% Object.keys(transactionsByDay).forEach(date => {
+            const transactions = transactionsByDay[date].transactions;
+        %>
+            <div class="day-card" onclick="showTransactions('<%= date %>')">
+                <div class="date-header">
+                    <%= new Date(date).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' }) %>
+                </div>
+                <div class="day-summary">
+                    <div>
+                        <div class="label">Income</div>
+                        <div class="value green">₹<%= transactionsByDay[date].totalReceived.toFixed(2) %></div>
                     </div>
-                    <div class="day-summary">
-                        <div>
-                            <div class="label">Income</div>
-                            <div class="value green">₹<%= transactionsByDay[date].totalReceived %>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="label">Expense</div>
-                            <div class="value red">₹<%= transactionsByDay[date].totalLoss %>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="label">Balance</div>
-                            <div class="value">₹<%= transactionsByDay[date].remainingAmount %>
-                            </div>
-                        </div>
+                    <div>
+                        <div class="label">Expense</div>
+                        <div class="value red">₹<%= transactionsByDay[date].totalLoss.toFixed(2) %></div>
                     </div>
-                    <div class="transaction-count">
-                        <%= transactions.length %> Transaction<%= transactions.length !==1 ? 's' : '' %>
+                    <div>
+                        <div class="label">Balance</div>
+                        <div class="value">₹<%= transactionsByDay[date].remainingAmount.toFixed(2) %></div>
                     </div>
                 </div>
-                <% }) %>
-        </div>
-
-        <div id="transactionModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="modalDate"></h2>
-                    <button class="close-button" onclick="closeModal()">&times;</button>
+                <div class="transaction-count">
+                    <%= transactions.length %> Transaction<%= transactions.length !== 1 ? 's' : '' %>
                 </div>
-                <div id="modalTransactions" class="transactions-list"></div>
             </div>
+        <% }) %>
+    </div>
+
+    <div id="transactionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalDate"></h2>
+                <button class="close-button" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalTransactions" class="transactions-list"></div>
         </div>
+    </div>
 
-        <script>
-            const transactionsByDay = <%- JSON.stringify(transactionsByDay) %>;
+    <script>
+        const transactionsByDay = <%- JSON.stringify(transactionsByDay) %>;
 
-            function showTransactions(date) {
-                const modal = document.getElementById('transactionModal');
-                const modalDate = document.getElementById('modalDate');
-                const modalTransactions = document.getElementById('modalTransactions');
+        function showTransactions(date) {
+            const modal = document.getElementById('transactionModal');
+            const modalDate = document.getElementById('modalDate');
+            const modalTransactions = document.getElementById('modalTransactions');
 
-                modalDate.textContent = new Date(date).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
+            modalDate.textContent = new Date(date).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
 
-                // Helper function to format categories
-                function formatCategory(category) {
-                    return category
-                        .split('_')  // Split the string by underscores
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))  // Capitalize the first letter of each word
-                        .join(' ');  // Join the words back with a space
-                }
-
-                modalTransactions.innerHTML = transactionsByDay[date].transactions.map(transaction => `
-            <div class="transaction-item">
-              <div class="type" style="color:${transaction.transaction_type == 'expense' ? 'red' : transaction.transaction_type == 'income' ? 'green' : '#654cbd' };">${transaction.transaction_type}</div>
-              <div><strong>Amount:</strong> ₹${transaction.amount}</div>
-              <div><strong>Category:</strong> ${formatCategory(transaction.category)}</div>
-            </div>
-          `).join('');
-
-                modal.style.display = 'block';
+            // Helper function to format categories
+            function formatCategory(category) {
+                return category
+                    .split('_')  // Split the string by underscores
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))  // Capitalize the first letter of each word
+                    .join(' ');  // Join the words back with a space
             }
 
-            function closeModal() {
-                document.getElementById('transactionModal').style.display = 'none';
-            }
+            modalTransactions.innerHTML = transactionsByDay[date].transactions.map(transaction => `
+                <div class="transaction-item">
+                    <div class="type" style="color:${transaction.transaction_type == 'expense' ? 'red' : transaction.transaction_type == 'income' ? 'green' : '#654cbd' };">${transaction.transaction_type}</div>
+                    <div><strong>Amount:</strong> ₹${transaction.amount.toFixed(2)}</div>
+                    <div><strong>Category:</strong> ${formatCategory(transaction.category)}</div>
+                </div>
+            `).join('');
 
-            // Close modal when clicking outside
-            window.onclick = function (event) {
-                const modal = document.getElementById('transactionModal');
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            }
-        </script>
+            modal.style.display = 'block';
+        }
 
-        <% } %>
+        function closeModal() {
+            document.getElementById('transactionModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('transactionModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+<% } %>
