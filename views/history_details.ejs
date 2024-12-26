@@ -174,6 +174,21 @@
             padding: 1rem;
         }
     }
+
+    .amount.green {
+        color: green;
+    }
+    .amount.red {
+        color: red;
+    }
+
+    .value.green {
+        color: green;
+    }
+
+    .value.red {
+        color: red;
+    }
 </style>
 <% if (error) { %>
     <p class="error">
@@ -183,12 +198,12 @@
         <div class="summary-cards">
             <div class="summary-card">
                 <div class="label">Total Income</div>
-                <div class="amount">₹<%= totalReceived %>
+                <div class="amount green">₹<%= totalReceived %>
                 </div>
             </div>
             <div class="summary-card">
                 <div class="label">Total Expense</div>
-                <div class="amount">₹<%= totalLoss %>
+                <div class="amount red">₹<%= totalLoss %>
                 </div>
             </div>
             <div class="summary-card">
@@ -209,12 +224,12 @@
                     <div class="day-summary">
                         <div>
                             <div class="label">Income</div>
-                            <div class="value">₹<%= transactionsByDay[date].totalReceived %>
+                            <div class="value green">₹<%= transactionsByDay[date].totalReceived %>
                             </div>
                         </div>
                         <div>
                             <div class="label">Expense</div>
-                            <div class="value">₹<%= transactionsByDay[date].totalLoss %>
+                            <div class="value red">₹<%= transactionsByDay[date].totalLoss %>
                             </div>
                         </div>
                         <div>
@@ -265,7 +280,7 @@
 
                 modalTransactions.innerHTML = transactionsByDay[date].transactions.map(transaction => `
             <div class="transaction-item">
-              <div class="type">${transaction.transaction_type}</div>
+              <div class="type" style="color:${transaction.transaction_type == 'expense' ? 'red' : transaction.transaction_type == 'income' ? 'green' : '#654cbd' };">${transaction.transaction_type}</div>
               <div><strong>Amount:</strong> ₹${transaction.amount}</div>
               <div><strong>Category:</strong> ${formatCategory(transaction.category)}</div>
             </div>
