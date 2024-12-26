@@ -24,3 +24,52 @@ input, select {
 button {
     cursor: pointer;
 }
+
+.error_box {
+    width: 50%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 20px;
+    right: 15px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.error_box .error_icon {
+    width: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error_box .error_text {
+    width: calc(100% - 60px);
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.error_box.red {
+    border: 1px solid #ebdbd7;
+    background: #faefeb;
+}
+
+.error_box.red .error_icon {
+    color: #fc5659;
+}
+
+.error_box.green {
+    border: 1px solid #d3e5d5;
+    background: #f1f7f3;
+}
+
+.error_box.green .error_icon {
+    color: #74d387;
+}
