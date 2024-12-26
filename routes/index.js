@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         // Check if user ID is valid
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('index', { title: 'Home', error: 'Invalid user ID', user: req.session.user });
+            return res.status(400).render('index', { title: 'Home', error: 'Invalid user ID', user: req.session.user, message: null });
         }
 
         // Check email verification status
@@ -83,16 +83,17 @@ router.get('/', async (req, res) => {
             totalLossMonth: totalLossAmountMonth,
             remainingAmountMonth,
             user,
-            error: null
+            error: null,
+            message: null
         });
     } catch (err) {
-        res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user });
+        res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user, message: null });
     }
 });
 
 // Route to render the transaction form
 router.get('/transaction_form', (req, res) => {
-    res.render('transaction_form', { title: 'Transaction Form', error: null, form_data: {} });
+    res.render('transaction_form', { title: 'Transaction Form', error: null, form_data: {}, user: req.session.user, message: null });
 });
 
 // Route to handle form submission
@@ -104,24 +105,24 @@ router.post('/transactions', async (req, res) => {
         // Validate user ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Invalid user ID', form_data: req.body });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Invalid user ID', form_data: req.body, user: req.session.user, message: null });
         }
 
         // Check if all required fields are provided
         if (!amount) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Amount is required', form_data: req.body });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Amount is required', form_data: req.body, user: req.session.user, message: null });
         }
         if (!transaction_type) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction type is required', form_data: req.body });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction type is required', form_data: req.body, user: req.session.user, message: null });
         }
         if (!transaction_date) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction date is required', form_data: req.body });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Transaction date is required', form_data: req.body, user: req.session.user, message: null });
         }
         if (!transaction_note) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Note date is required', form_data: req.body });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Note date is required', form_data: req.body, user: req.session.user, message: null });
         }
         if (!category) {
-            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Category is required', form_data: req.body });
+            return res.status(400).render('transaction_form', { title: 'Transaction Form', error: 'Category is required', form_data: req.body, user: req.session.user, message: null });
         }
 
         const newTransaction = new Transaction({
@@ -138,7 +139,7 @@ router.post('/transactions', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        res.status(500).render('transaction_form', { title: 'Transaction Form', error: 'Server error', form_data: req.body });
+        res.status(500).render('transaction_form', { title: 'Transaction Form', error: 'Server error', form_data: req.body, user: req.session.user, message: null });
     }
 });
 
@@ -150,7 +151,7 @@ router.get('/history', async (req, res) => {
         // Validate user ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('history', { title: 'History', error: 'Invalid user ID', user: req.session.user });
+            return res.status(400).render('history', { title: 'History', error: 'Invalid user ID', user: req.session.user, message: null });
         }
 
         // Get a list of past months with transactions
@@ -172,9 +173,9 @@ router.get('/history', async (req, res) => {
             month: t._id.month
         }));
 
-        res.render('history', { title: 'History', months, user, error: null });
+        res.render('history', { title: 'History', months, user, error: null, message: null });
     } catch (err) {
-        res.status(500).render('history', { title: 'History', error: 'Server error', user: req.session.user });
+        res.status(500).render('history', { title: 'History', error: 'Server error', user: req.session.user, message: null });
     }
 });
 
@@ -187,7 +188,7 @@ router.get('/history/:year/:month', async (req, res) => {
         // Validate user ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('history_details', { title: 'History Details', error: 'Invalid user ID', user: req.session.user });
+            return res.status(400).render('history_details', { title: 'History Details', error: 'Invalid user ID', user: req.session.user, message: null });
         }
 
         // Get transactions for the specified month and year
@@ -269,7 +270,7 @@ router.get('/history/:year/:month', async (req, res) => {
             error: null
         });
     } catch (err) {
-        res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user });
+        res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user, message: null });
     }
 });
 

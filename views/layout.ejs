@@ -15,7 +15,7 @@
     <link rel="manifest" href="/favicon/site.webmanifest" />
 
     <!-- CSS -->
-     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 
 <body>
@@ -24,6 +24,16 @@
             <div class="container">
                 <%- body %>
             </div>
+
+            <% if (error) { %>
+                <p style="color: red;">
+                    <%= error %>
+                </p>
+                <% } else if (message) { %>
+                    <p style="color: green;">
+                        <%= message %>
+                    </p>
+                    <% } %>
 
 </body>
 
