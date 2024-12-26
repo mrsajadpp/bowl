@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         // Check if user ID is valid
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('index', { title: 'Home', error: 'Invalid user ID', user: req.session.user, message: null });
+            return res.status(400).render('index', { title: 'Home', error: 'Invalid user ID', user: req.session.user, message: null, auth_page: null });
         }
 
         // Check email verification status
@@ -84,16 +84,17 @@ router.get('/', async (req, res) => {
             remainingAmountMonth,
             user,
             error: null,
-            message: null
+            message: null,
+            auth_page: null
         });
     } catch (err) {
-        res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user, message: null });
+        res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user, message: null, auth_page: null });
     }
 });
 
 // Route to render the transaction form
 router.get('/transaction_form', (req, res) => {
-    res.render('transaction_form', { title: 'Transaction Form', error: null, form_data: {}, user: req.session.user, message: null });
+    res.render('transaction_form', { title: 'Transaction Form', error: null, form_data: {}, user: req.session.user, message: null, auth_page: null });
 });
 
 router.post('/transactions', async (req, res) => {
@@ -109,7 +110,8 @@ router.post('/transactions', async (req, res) => {
                 error: 'Invalid user ID',
                 form_data: req.body,
                 user: req.session.user,
-                message: null
+                message: null,
+                auth_page: null
             });
         }
 
@@ -120,7 +122,8 @@ router.post('/transactions', async (req, res) => {
                 error: 'Transaction date is required',
                 form_data: req.body,
                 user: req.session.user,
-                message: null
+                message: null,
+                auth_page: null
             });
         }
 
@@ -149,7 +152,8 @@ router.post('/transactions', async (req, res) => {
                     error: 'Amount, type, and category are required for each transaction',
                     form_data: req.body,
                     user: req.session.user,
-                    message: null
+                    message: null,
+                    auth_page: null
                 });
             }
 
@@ -173,7 +177,8 @@ router.post('/transactions', async (req, res) => {
             error: 'Server error',
             form_data: req.body,
             user: req.session.user,
-            message: null
+            message: null,
+            auth_page: null
         });
     }
 });
@@ -187,7 +192,7 @@ router.get('/history', async (req, res) => {
         // Validate user ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('history', { title: 'History', error: 'Invalid user ID', user: req.session.user, message: null });
+            return res.status(400).render('history', { title: 'History', error: 'Invalid user ID', user: req.session.user, message: null, auth_page: null });
         }
 
         // Get a list of past months with transactions
@@ -209,9 +214,9 @@ router.get('/history', async (req, res) => {
             month: t._id.month
         }));
 
-        res.render('history', { title: 'History', months, user, error: null, message: null });
+        res.render('history', { title: 'History', months, user, error: null, message: null, auth_page: null });
     } catch (err) {
-        res.status(500).render('history', { title: 'History', error: 'Server error', user: req.session.user, message: null });
+        res.status(500).render('history', { title: 'History', error: 'Server error', user: req.session.user, message: null, auth_page: null });
     }
 });
 
@@ -224,7 +229,7 @@ router.get('/history/:year/:month', async (req, res) => {
         // Validate user ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(400).render('history_details', { title: 'History Details', error: 'Invalid user ID', user: req.session.user, message: null });
+            return res.status(400).render('history_details', { title: 'History Details', error: 'Invalid user ID', user: req.session.user, message: null, auth_page: null });
         }
 
         // Get transactions for the specified month and year
@@ -304,10 +309,11 @@ router.get('/history/:year/:month', async (req, res) => {
             remainingAmount,
             user,
             error: null,
-            message: null
+            message: null,
+            auth_page: null
         });
     } catch (err) {
-        res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user, message: null });
+        res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user, message: null, auth_page: null });
     }
 });
 

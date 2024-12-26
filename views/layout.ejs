@@ -19,7 +19,9 @@
 </head>
 
 <body>
-    <%- include('partials/header') %>
+    <% if(!auth_page) {%>
+    <%- include('partials/header') %> 
+    <% } %>
     <%- include('partials/menu') %>
     <div class="container">
         <%- body %>

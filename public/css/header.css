@@ -184,6 +184,11 @@ header.mobile_header .header_logo a img {
     header.desktop_header {
         display: flex;
     }
+
+    body {
+        display: flex;
+        flex-direction: row;
+    }
 }
 
 @media (max-width: 768px) {
@@ -197,5 +202,10 @@ header.mobile_header .header_logo a img {
 
     header.desktop_header {
         display: none;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
     }
 }

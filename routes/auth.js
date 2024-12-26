@@ -20,7 +20,7 @@ function isPastDate(dateString) {
 // GET route for signup page
 router.get('/signup', (req, res) => {
     try {
-        res.render('signup', { title: 'Signup', error: null, form_data: {}, message: null });
+        res.render('signup', { title: 'Signup', error: null, form_data: {}, message: null, auth_page: true });
     } catch (err) {
         console.error(err);
     }
@@ -29,7 +29,7 @@ router.get('/signup', (req, res) => {
 // GET route for login page
 router.get('/login', (req, res) => {
     try {
-        res.render('login', { title: 'Login', error: null, form_data: {}, message: null });
+        res.render('login', { title: 'Login', error: null, form_data: {}, message: null, auth_page: true });
     } catch (err) {
         console.error(err);
     }
@@ -54,44 +54,44 @@ router.post('/signup', async (req, res) => {
     try {
         // Validate user_name
         if (!user_name || user_name.length < 3) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid username', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid username', form_data: req.body, message: null, auth_page: true });
         }
 
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email || !emailRegex.test(email)) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid email', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid email', form_data: req.body, message: null, auth_page: true });
         }
 
         // Validate dob
         if (!dob || new Date(dob) > new Date()) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid date of birth', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Invalid date of birth', form_data: req.body, message: null, auth_page: true });
         }
 
         // Validate password
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
         if (!password || !passwordRegex.test(password)) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Password must be at least 6 characters long and contain alphabets, numbers, and special symbols', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Password must be at least 6 characters long and contain alphabets, numbers, and special symbols', form_data: req.body, message: null, auth_page: true });
         }
 
         // Validate position
         if (!position) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Position is required', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Position is required', form_data: req.body, message: null, auth_page: true });
         }
 
         // Validate sex
         if (!sex) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Sex is required', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Sex is required', form_data: req.body, message: null, auth_page: true });
         }
 
         if (!isPastDate(dob)) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'Date of birth cannot be in the future', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'Date of birth cannot be in the future', form_data: req.body, message: null, auth_page: true });
         }
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).render('signup', { title: 'Signup', error: 'User already exists', form_data: req.body, message: null });
+            return res.status(400).render('signup', { title: 'Signup', error: 'User already exists', form_data: req.body, message: null, auth_page: true });
         }
 
         // Create new user
@@ -109,7 +109,7 @@ router.post('/signup', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        res.status(500).render('signup', { title: 'Signup', error: 'Server error', form_data: req.body, message: null });
+        res.status(500).render('signup', { title: 'Signup', error: 'Server error', form_data: req.body, message: null, auth_page: true });
     }
 });
 
@@ -120,29 +120,29 @@ router.post('/login', async (req, res) => {
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email || !emailRegex.test(email)) {
-            return res.status(400).render('login', { title: 'Login', error: 'Invalid email', form_data: req.body, message: null });
+            return res.status(400).render('login', { title: 'Login', error: 'Invalid email', form_data: req.body, message: null, auth_page: true });
         }
 
         // Validate password
         if (!password) {
-            return res.status(400).render('login', { title: 'Login', error: 'Password is required', form_data: req.body, message: null });
+            return res.status(400).render('login', { title: 'Login', error: 'Password is required', form_data: req.body, message: null, auth_page: true });
         }
 
         // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).render('login', { title: 'Login', error: 'User does not exist', form_data: req.body, message: null });
+            return res.status(400).render('login', { title: 'Login', error: 'User does not exist', form_data: req.body, message: null, auth_page: true });
         }
 
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).render('login', { title: 'Login', error: 'Invalid credentials', form_data: req.body, message: null });
+            return res.status(400).render('login', { title: 'Login', error: 'Invalid credentials', form_data: req.body, message: null, auth_page: true });
         }
 
         if (!user.email_verified) {
             await user.sendVerificationEmail();
-            return res.status(400).render('login', { title: 'Login', error: 'Email not verified. A verification email has been sent.', form_data: req.body, message: null });
+            return res.status(400).render('login', { title: 'Login', error: 'Email not verified. A verification email has been sent.', form_data: req.body, message: null, auth_page: true });
         }
 
         // Remove password from user object before adding to session
@@ -154,7 +154,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        res.status(500).render('login', { title: 'Login', error: 'Server error', form_data: req.body, message: null });
+        res.status(500).render('login', { title: 'Login', error: 'Server error', form_data: req.body, message: null, auth_page: true });
     }
 });
 
@@ -165,7 +165,7 @@ router.get('/verify-email', async (req, res) => {
         const user = await User.findById(userId);
 
         if (!user || user.verificationCode !== verificationCode) {
-            return res.status(400).render('verify-email', { title: 'Email Verification', error: 'Invalid verification link', message: null });
+            return res.status(400).render('verify-email', { title: 'Email Verification', error: 'Invalid verification link', message: null, auth_page: true });
         }
 
         const currentTime = new Date();
@@ -173,7 +173,7 @@ router.get('/verify-email', async (req, res) => {
         const hoursDifference = timeDifference / (1000 * 60 * 60);
 
         if (hoursDifference > 24) {
-            return res.status(400).render('verify-email', { title: 'Email Verification', error: 'Verification link expired', message: null });
+            return res.status(400).render('verify-email', { title: 'Email Verification', error: 'Verification link expired', message: null, auth_page: true });
         }
 
         user.email_verified = true;
@@ -185,13 +185,13 @@ router.get('/verify-email', async (req, res) => {
         res.render('verify-email', { title: 'Email Verification', message: 'Email verified successfully. You can now log in.', error: null });
     } catch (err) {
         console.error(err);
-        res.status(500).render('verify-email', { title: 'Email Verification', error: 'Server error', message: null });
+        res.status(500).render('verify-email', { title: 'Email Verification', error: 'Server error', message: null, auth_page: true });
     }
 });
 
 // GET route for password reset request page
 router.get('/reset-password', (req, res) => {
-    res.render('reset_password_request', { title: 'Reset Password', error: null, message: null });
+    res.render('reset_password_request', { title: 'Reset Password', error: null, message: null, auth_page: true });
 });
 
 // POST route to handle password reset request
@@ -200,7 +200,7 @@ router.post('/reset-password', async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).render('reset_password_request', { title: 'Reset Password', error: 'User does not exist', message: null });
+            return res.status(400).render('reset_password_request', { title: 'Reset Password', error: 'User does not exist', message: null, auth_page: true });
         }
 
         // Generate a reset token and expiration time
@@ -217,7 +217,7 @@ router.post('/reset-password', async (req, res) => {
         res.render('reset_password_request', { title: 'Reset Password', message: 'Password reset link has been sent to your email.', error: null });
     } catch (err) {
         console.error(err);
-        res.status(500).render('reset_password_request', { title: 'Reset Password', error: 'Server error', message: null });
+        res.status(500).render('reset_password_request', { title: 'Reset Password', error: 'Server error', message: null, auth_page: true });
     } 
 });
 
@@ -227,13 +227,13 @@ router.get('/reset-password/:token', async (req, res) => {
     try {
         const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
         if (!user) {
-            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Invalid or expired token', message: null, token });
+            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Invalid or expired token', token, message: null, auth_page: true });
         }
 
-        res.render('reset_password_form', { title: 'Reset Password', error: null, token, message: null });
+        res.render('reset_password_form', { title: 'Reset Password', error: null, token, message: null, auth_page: true });
     } catch (err) {
         console.error(err);
-        res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', message: null, token });
+        res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', token, message: null, auth_page: true });
     }
 });
 
@@ -244,17 +244,17 @@ router.post('/reset-password/:token', async (req, res) => {
     try {
         const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
         if (!user) {
-            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Invalid or expired token', token, message: null });
+            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Invalid or expired token', token, message: null, auth_page: true });
         }
 
         if (password !== confirmPassword) {
-            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Passwords do not match', token, message: null });
+            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Passwords do not match', token, message: null, auth_page: true });
         }
 
         // Validate password
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
         if (!password || !passwordRegex.test(password)) {
-            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Password must be at least 6 characters long and contain alphabets, numbers, and special symbols', token, message: null });
+            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Password must be at least 6 characters long and contain alphabets, numbers, and special symbols', token, message: null, auth_page: true });
         }
 
         // Hash the new password and save it
@@ -266,7 +266,7 @@ router.post('/reset-password/:token', async (req, res) => {
         res.redirect('/auth/login');
     } catch (err) {
         console.error(err);
-        res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', token, message: null });
+        res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', token, message: null, auth_page: true });
     }
 });
 
