@@ -210,13 +210,13 @@ router.get('/reset-password/:token', async (req, res) => {
     try {
         const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
         if (!user) {
-            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Invalid or expired token', message: null, token: null });
+            return res.status(400).render('reset_password_form', { title: 'Reset Password', error: 'Invalid or expired token', message: null, token });
         }
 
         res.render('reset_password_form', { title: 'Reset Password', error: null, token, message: null });
     } catch (err) {
         console.error(err);
-        res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', message: null, token: null });
+        res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', message: null, token });
     }
 });
 
