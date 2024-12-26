@@ -41,6 +41,8 @@ form .input_box {
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
+    align-items: center;
+    justify-content: center;
 }
 
 form .input_button {
@@ -69,6 +71,10 @@ form .input_box select {
     background: transparent;
     border: none;
     border-radius: 5px;
+    padding-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 form .input_button button {
