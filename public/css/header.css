@@ -184,6 +184,9 @@ header.mobile_header .header_logo a img {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    top: 0px;
+    left: 0px;
 }
 
 .desktop_header .header_logo {
@@ -288,6 +291,12 @@ header.mobile_header .header_logo a img {
     body {
         display: flex;
         flex-direction: row;
+        justify-content: end;
+    }
+
+    .container {
+        width: calc(100% - 330px);
+        margin: 0px;
     }
 }
 
