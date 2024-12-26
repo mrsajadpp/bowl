@@ -27,6 +27,37 @@ router.get('/', async (req, res) => {
         // Check email verification status
         user.checkEmailVerification();
 
+        const today = new Date();
+        const startOfDay = new Date(today.setHours(0, 0, 0, 0)); // Start of today
+        const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // End of today
+
+        // Aggregate data for today
+        const totalReceivedToday = await Transaction.aggregate([
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
+                    transaction_type: 'income',
+                    transaction_date: { $gte: startOfDay, $lte: endOfDay }
+                }
+            },
+            { $group: { _id: null, total: { $sum: '$amount' } } }
+        ]);
+
+        const totalLossToday = await Transaction.aggregate([
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
+                    transaction_type: 'expense',
+                    transaction_date: { $gte: startOfDay, $lte: endOfDay }
+                }
+            },
+            { $group: { _id: null, total: { $sum: '$amount' } } }
+        ]);
+
+        const totalReceivedAmountToday = totalReceivedToday.length > 0 ? totalReceivedToday[0].total : 0;
+        const totalLossAmountToday = totalLossToday.length > 0 ? totalLossToday[0].total : 0;
+        const remainingAmountToday = totalReceivedAmountToday - totalLossAmountToday;
+
         // Aggregate data for full lifetime
         const totalReceived = await Transaction.aggregate([
             { $match: { user_id: new mongoose.Types.ObjectId(userId), transaction_type: 'income' } },
@@ -45,6 +76,9 @@ router.get('/', async (req, res) => {
         // Aggregate data for the current month
         const currentMonth = new Date().getMonth() + 1;
         const currentYear = new Date().getFullYear();
+
+        const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+        const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
 
         const totalReceivedMonth = await Transaction.aggregate([
             {
@@ -82,20 +116,70 @@ router.get('/', async (req, res) => {
         const totalLossAmountMonth = totalLossMonth.length > 0 ? totalLossMonth[0].total : 0;
         const remainingAmountMonth = totalReceivedAmountMonth - totalLossAmountMonth;
 
+        // Most spent category this month
+        const mostSpentCategoryThisMonth = await Transaction.aggregate([
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
+                    transaction_type: 'expense',
+                    $expr: {
+                        $and: [
+                            { $eq: [{ $month: '$transaction_date' }, currentMonth] },
+                            { $eq: [{ $year: '$transaction_date' }, currentYear] }
+                        ]
+                    }
+                }
+            },
+            { $group: { _id: '$category', total: { $sum: '$amount' } } },
+            { $sort: { total: -1 } },
+            { $limit: 1 }
+        ]);
+
+        const mostSpentCategory = mostSpentCategoryThisMonth.length > 0 ? mostSpentCategoryThisMonth[0] : { _id: null, total: 0 };
+
+        // Most received category last month
+        const mostReceivedCategoryLastMonth = await Transaction.aggregate([
+            {
+                $match: {
+                    user_id: new mongoose.Types.ObjectId(userId),
+                    transaction_type: 'income',
+                    $expr: {
+                        $and: [
+                            { $eq: [{ $month: '$transaction_date' }, lastMonth] },
+                            { $eq: [{ $year: '$transaction_date' }, lastMonthYear] }
+                        ]
+                    }
+                }
+            },
+            { $group: { _id: '$category', total: { $sum: '$amount' } } },
+            { $sort: { total: -1 } },
+            { $limit: 1 }
+        ]);
+
+        const mostReceivedCategory = mostReceivedCategoryLastMonth.length > 0 ? mostReceivedCategoryLastMonth[0] : { _id: null, total: 0 };
+
         res.render('index', {
             title: 'Home',
             totalReceived: totalReceivedAmount,
             totalLoss: totalLossAmount,
             remainingAmount,
+            mostSpentCategoryThisMonth: mostSpentCategory._id,
+            mostSpentCategoryAmount: mostSpentCategory.total,
+            mostReceivedCategoryLastMonth: mostReceivedCategory._id,
+            mostReceivedCategoryAmount: mostReceivedCategory.total,
             totalReceivedMonth: totalReceivedAmountMonth,
             totalLossMonth: totalLossAmountMonth,
             remainingAmountMonth,
+            totalReceivedToday: totalReceivedAmountToday,
+            totalLossToday: totalLossAmountToday,
+            remainingAmountToday,
             user,
             error: null,
             message: null,
             auth_page: null
         });
     } catch (err) {
+        console.log(err);
         res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user, message: null, auth_page: null });
     }
 });

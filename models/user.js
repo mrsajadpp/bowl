@@ -66,16 +66,6 @@ userSchema.pre('save', async function(next) {
     next();
 });
 
-// userSchema.pre('save', function(next) {
-//     if (this.isModified('dob') || this.isNew) {
-//         if (typeof this.dob === 'string' && this.dob.includes('/')) {
-//             const [day, month, year] = this.dob.split('/').map(Number);
-//             this.dob = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
-//         }
-//     }
-//     next();
-// });
-
 // Method to set status to false if email_verified is false after 24 hours
 userSchema.methods.checkEmailVerification = function() {
     const user = this;
