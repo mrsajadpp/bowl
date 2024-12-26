@@ -121,7 +121,7 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
         }
     });
 
-    const resetUrl = `http://192.168.1.60:3000/auth/reset-password/${resetToken}`;
+    const resetUrl = `https://g94x6k7c-3000.inc1.devtunnels.ms/auth/reset-password/${resetToken}`;
 
     const mailOptions = {
         from: 'Bowl. <noreply.tikketu@gmail.com>',
