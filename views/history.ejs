@@ -111,7 +111,7 @@
       months.forEach(month => {
         const monthName = monthNames[parseInt(month.month) - 1];
     %>
-      <a href="/history/<%= month.year %>/<%= month.month %>" class="month-card">
+      <a href="/app/history/<%= month.year %>/<%= month.month %>" class="month-card">
         <div class="month-name"><%= monthName %></div>
         <div class="year"><%= month.year %></div>
       </a>

@@ -113,7 +113,7 @@ router.post('/signup', async (req, res) => {
 
         // Save user to session
         req.session.user = userWithoutPassword;
-        res.redirect('/home');
+        res.redirect('/app/home');
     } catch (err) {
         console.error(err);
         res.status(500).render('signup', { title: 'Signup', error: 'Server error', form_data: req.body, message: null, auth_page: true });
@@ -158,7 +158,7 @@ router.post('/login', async (req, res) => {
 
         // Save user to session
         req.session.user = userWithoutPassword;
-        res.redirect('/home');
+        res.redirect('/app/home');
     } catch (err) {
         console.error(err);
         res.status(500).render('login', { title: 'Login', error: 'Server error', form_data: req.body, message: null, auth_page: true });

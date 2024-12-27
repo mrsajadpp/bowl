@@ -261,7 +261,7 @@ router.post('/transactions', async (req, res) => {
             await newTransaction.save();
         }
 
-        res.redirect('/home');
+        res.redirect('/app/home');
     } catch (err) {
         console.error(err);
         res.status(500).render('transaction_form', {

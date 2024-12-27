@@ -61,7 +61,7 @@ function checkLoggedIn(req, res, next) {
     if (!req.session.user) {
         return next();
     }
-    return res.redirect('/home');
+    return res.redirect('/app/home');
 }
 
 // Middleware to check if user is not logged in
@@ -82,7 +82,7 @@ const authRouter = require('./routes/auth');
 
 app.use('/', indexRouter);
 app.use('/auth', checkLoggedIn, authRouter);
-app.use('/', checkNotLoggedIn, userRouter);
+app.use('/app', checkNotLoggedIn, userRouter);
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
