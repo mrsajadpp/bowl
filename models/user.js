@@ -97,7 +97,7 @@ userSchema.methods.sendVerificationEmail = async function() {
         }
     });
 
-    const verificationUrl = `https://g94x6k7c-3000.inc1.devtunnels.ms/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
+    const verificationUrl = `https://bowl.grovixlab.com/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
 
     const mailOptions = {
         from: 'Bowl. <noreply.tikketu@gmail.com>',
@@ -121,7 +121,7 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
         }
     });
 
-    const resetUrl = `https://g94x6k7c-3000.inc1.devtunnels.ms/auth/reset-password/${resetToken}`;
+    const resetUrl = `https://bowl.grovixlab.com/auth/reset-password/${resetToken}`;
 
     const mailOptions = {
         from: 'Bowl. <noreply.tikketu@gmail.com>',
