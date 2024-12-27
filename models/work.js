@@ -25,7 +25,36 @@ const workSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        enum: [
+            "creative",
+            "technology",
+            "business",
+            "finance",
+            "education",
+            "healthcare",
+            "engineering",
+            "law",
+            "manufacturing",
+            "hospitality",
+            "construction",
+            "media",
+            "retail",
+            "customer_service",
+            "transportation",
+            "logistics",
+            "administration",
+            "sales",
+            "marketing",
+            "real_estate",
+            "security",
+            "skilled_trades",
+            "maintenance",
+            "agriculture",
+            "food_service",
+            "public_service",
+            "delivery"
+          ]
     }
 }, {
     timestamps: true
