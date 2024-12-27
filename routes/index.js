@@ -9,9 +9,10 @@ const { default: mongoose } = require('mongoose');
 router.get('/', async (req, res) => {
     try {
         res.status(500).render('index/index', {
+            layout: 'index_layout',
             title: 'Bowl - Manage Your Finances Easily',
             metaDescription: 'Bowl helps you manage your finances effortlessly. Track your income and expenses with ease, and make smarter financial decisions.',
-            layout: 'index_layout', error: null, message: null, auth_page: true, req: req
+            error: null, message: null, auth_page: true, req: req
         });
     } catch (err) {
         console.error(err);
@@ -28,7 +29,7 @@ router.get('/about', async (req, res) => {
         res.status(500).render('index/about', {
             title: 'About Bowl - Learn More About Us',
             metaDescription: 'Learn more about Bowl, the financial management platform designed to help you track and optimize your spending and income.',
-            layout: 'index_layout', error: null, message: null, auth_page: true, req: req   
+            layout: 'index_layout', error: null, message: null, auth_page: true, req: req
         });
     } catch (err) {
         console.error(err);
