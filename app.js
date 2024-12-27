@@ -11,7 +11,7 @@ const fs = require("fs");
 const accessLogStream = fs.createWriteStream(
     path.join(__dirname, "access.log"),
     { flags: "a" }
-); 
+);
 
 // Define a custom token for coloring status code
 morgan.token('status', (req, res) => {
@@ -83,6 +83,15 @@ const authRouter = require('./routes/auth');
 app.use('/', indexRouter);
 app.use('/auth', checkLoggedIn, authRouter);
 app.use('/app', checkNotLoggedIn, userRouter);
+
+app.use((req, res) => {
+    res.status(404).render('notfound', {
+        title: '404 - Page Not Found',
+        metaDescription: 'The page you are looking for does not exist. Please check the URL and try again.',
+        layout: 'index_layout', req: req,
+        error: '404 - Page Not Found'
+    });
+});
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
