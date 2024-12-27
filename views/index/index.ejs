@@ -137,10 +137,14 @@
         <h1>Take Control of Your Finances</h1>
         <p>Track your expenses, analyze your spending, and achieve your financial goals with Bowl.</p>
         <div class="hero-buttons">
-            <button class="primary-btn">
+            <button onclick="() => {
+                window.location.href = '/home';
+            }" class="primary-btn">
                 <a href="/home">Get Started</a>
             </button>
-            <button class="secondary-btn">
+            <button onclick="() => {
+                window.location.href = '/#features';
+            }" class="secondary-btn">
                 <a href="#features">
                     Learn More
                 </a>
