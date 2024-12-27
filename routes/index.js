@@ -119,5 +119,23 @@ router.get('/sitemap.xml', (req, res) => {
     }
 });
 
+// Route for robots.txt
+router.get('/robots.txt', (req, res) => {
+    try {
+        const robotsTxt = `
+User-agent: *
+Allow: /*
+Disallow: /app/*
+
+Sitemap: https://bowl.grovixlab.com/sitemap.xml
+`;
+        res.header('Content-Type', 'text/plain');
+        res.send(robotsTxt.trim());
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
 
 module.exports = router;
