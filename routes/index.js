@@ -7,14 +7,14 @@ const { default: mongoose } = require('mongoose');
 
 
 function convertToISO(dateString) {
-    const [day, month, year] = dateString.split('/');  // Split the string into day, month, and year
+    const [day, month, year] = dateString.split('/home');  // Split the string into day, month, and year
     // Construct the ISO string with 00:00:00.000Z time
     const isoDateString = `${year}-${month}-${day}T00:00:00.000Z`;
     return isoDateString;  // Return the ISO formatted string
 }
 
 // Home route
-router.get('/', async (req, res) => {
+router.get('/home', async (req, res) => {
     try {
         const userId = req.session.user._id;
 
@@ -261,7 +261,7 @@ router.post('/transactions', async (req, res) => {
             await newTransaction.save();
         }
 
-        res.redirect('/');
+        res.redirect('/home');
     } catch (err) {
         console.error(err);
         res.status(500).render('transaction_form', {
