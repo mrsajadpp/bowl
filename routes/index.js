@@ -15,5 +15,14 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/about', async (req, res) => {
+    try {
+        res.status(500).render('index/about', { title: 'Bowl.', layout: 'index_layout', error: null, message: null, auth_page: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('index/about', { title: 'Bowl.', error: 'Server error', message: null, auth_page: true });
+    }
+});
+
 
 module.exports = router;
