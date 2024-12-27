@@ -7,7 +7,7 @@ const { default: mongoose } = require('mongoose');
 
 
 function convertToISO(dateString) {
-    const [day, month, year] = dateString.split('/home');  // Split the string into day, month, and year
+    const [day, month, year] = dateString.split('/');  // Split the string into day, month, and year
     // Construct the ISO string with 00:00:00.000Z time
     const isoDateString = `${year}-${month}-${day}T00:00:00.000Z`;
     return isoDateString;  // Return the ISO formatted string
