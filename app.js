@@ -77,9 +77,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+
+app.use('/', indexRouter);
 app.use('/auth', checkLoggedIn, authRouter);
-app.use('/', checkNotLoggedIn, indexRouter);
+app.use('/', checkNotLoggedIn, userRouter);
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
