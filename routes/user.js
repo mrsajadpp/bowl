@@ -2,6 +2,7 @@ const express = require('express');
 const cookieSession = require('cookie-session');
 const router = express.Router();
 const Transaction = require('../models/transaction');
+const logger = require('../logger');
 const User = require('../models/user');
 const { default: mongoose } = require('mongoose');
 
@@ -180,6 +181,7 @@ router.get('/home', async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+        logger.logError(err);
         res.status(500).render('index', { title: 'Home', error: 'Server error', user: req.session.user, message: null, auth_page: null });
     }
 });
@@ -264,6 +266,7 @@ router.post('/transactions', async (req, res) => {
         res.redirect('/app/home');
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('transaction_form', {
             title: 'Transaction Form',
             error: 'Server error',
@@ -308,6 +311,7 @@ router.get('/history', async (req, res) => {
 
         res.render('history', { title: 'History', months, user, error: null, message: null, auth_page: null });
     } catch (err) {
+        logger.logError(err);
         res.status(500).render('history', { title: 'History', error: 'Server error', user: req.session.user, message: null, auth_page: null });
     }
 });
@@ -405,6 +409,7 @@ router.get('/history/:year/:month', async (req, res) => {
             auth_page: null
         });
     } catch (err) {
+        logger.logError(err);
         res.status(500).render('history_details', { title: 'History Details', error: 'Server error', user: req.session.user, message: null, auth_page: null });
     }
 });

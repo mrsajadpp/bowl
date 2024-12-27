@@ -3,6 +3,7 @@ const cookieSession = require('cookie-session');
 const router = express.Router();
 const Transaction = require('../models/transaction');
 const User = require('../models/user');
+const logger = require('../logger');
 const { default: mongoose } = require('mongoose');
 
 
@@ -16,6 +17,7 @@ router.get('/', async (req, res) => {
         });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('index/index', {
             title: 'Bowl - Manage Your Finances Easily',
             metaDescription: 'Bowl helps you manage your finances effortlessly. Track your income and expenses with ease, and make smarter financial decisions.',
@@ -33,6 +35,7 @@ router.get('/about', async (req, res) => {
         });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('index/about', {
             title: 'About Bowl - Learn More About Us',
             metaDescription: 'Learn more about Bowl, the financial management platform designed to help you track and optimize your spending and income.',
@@ -50,6 +53,7 @@ router.get('/terms-and-conditions', async (req, res) => {
         });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('index/terms_and_conditions', {
             title: 'Terms and Conditions - Bowl',
             metaDescription: 'Read the terms and conditions for using the Bowl platform. These terms govern your use of our website and financial management services.',
@@ -67,6 +71,7 @@ router.get('/privacy-policy', async (req, res) => {
         });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('index/privacy_policy', {
             title: 'Privacy Policy - Bowl',
             metaDescription: 'Read Bowl’s privacy policy to understand how we collect, use, and protect your personal information while using our financial management platform.',
@@ -115,6 +120,7 @@ router.get('/sitemap.xml', (req, res) => {
         res.send(sitemap);
     } catch (error) {
         console.error(error);
+        logger.logError(error);
         res.status(500).send('Server error');
     }
 });
@@ -133,6 +139,7 @@ Sitemap: https://bowl.grovixlab.com/sitemap.xml
         res.send(robotsTxt.trim());
     } catch (error) {
         console.error(error);
+        logger.logError(error);
         res.status(500).send('Server error');
     }
 });

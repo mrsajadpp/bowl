@@ -2,7 +2,9 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const User = require('../models/user');
+const logger = require('../logger');
 const router = express.Router();
+
 
 function isPastDate(dateString) {
     // Parse the input date string
@@ -30,6 +32,7 @@ router.get('/signup', (req, res) => {
         res.render('signup', { title: 'Signup', error: null, form_data: {}, message: null, auth_page: true });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
     }
 });
 
@@ -39,6 +42,7 @@ router.get('/login', (req, res) => {
         res.render('login', { title: 'Login', error: null, form_data: {}, message: null, auth_page: true });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
     }
 });
 
@@ -116,6 +120,7 @@ router.post('/signup', async (req, res) => {
         res.redirect('/app/home');
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('signup', { title: 'Signup', error: 'Server error', form_data: req.body, message: null, auth_page: true });
     }
 });
@@ -161,6 +166,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/app/home');
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('login', { title: 'Login', error: 'Server error', form_data: req.body, message: null, auth_page: true });
     }
 });
@@ -192,6 +198,7 @@ router.get('/verify-email', async (req, res) => {
         res.render('verify-email', { title: 'Email Verification', message: 'Email verified successfully. You can now log in.', error: null, auth_page: true });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('verify-email', { title: 'Email Verification', error: 'Server error', message: null, auth_page: true });
     }
 });
@@ -224,6 +231,7 @@ router.post('/reset-password', async (req, res) => {
         res.render('reset_password_request', { title: 'Reset Password', message: 'Password reset link has been sent to your email.', error: null, auth_page: true });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('reset_password_request', { title: 'Reset Password', error: 'Server error', message: null, auth_page: true });
     } 
 });
@@ -240,6 +248,7 @@ router.get('/reset-password/:token', async (req, res) => {
         res.render('reset_password_form', { title: 'Reset Password', error: null, token, message: null, auth_page: true });
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', token, message: null, auth_page: true });
     }
 });
@@ -273,6 +282,7 @@ router.post('/reset-password/:token', async (req, res) => {
         res.redirect('/auth/login');
     } catch (err) {
         console.error(err);
+        logger.logError(err);
         res.status(500).render('reset_password_form', { title: 'Reset Password', error: 'Server error', token, message: null, auth_page: true });
     }
 });
