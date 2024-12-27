@@ -103,16 +103,8 @@
     </div>
 
     <div class="input_button">
-        <button type="submit">
-            <div class="button_text">
-                Signup
-            </div> &nbsp;
-            <div class="button_icon">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-                    stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                    <path d='M4.5 12h15m0 0-5.625-6m5.625 6-5.625 6' />
-                </svg>
-            </div>
+        <button type="submit" onclick="loadButton();" class="click_button">
+            <span class="button__text">Signup</span>
         </button>
     </div>
 
@@ -121,6 +113,14 @@
     </div>
 </form>
 
+
+<script>
+    let button = document.querySelector(".click_button");
+
+    const loadButton = () => {
+        button.classList.add('button__loading');
+    }
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var dateInput = document.getElementById('dob');
