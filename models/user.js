@@ -147,7 +147,7 @@ userSchema.methods.sendVerificationEmail = async function () {
                 <p class="note"><a href="${verificationUrl}" style="color: #0078e8;">${verificationUrl}</a></p>
                 <p>If you did not register with us, please ignore this email.</p>
                 <p>Thank you for choosing Bowl!</p>
-                <p>Warm regards,<br>Bowl Team</p>
+                <p>Warm regards,<br>The Bowl Team</p>
             </td>
         </tr>
         <tr>
@@ -224,7 +224,7 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
                 <p class="note"><a href="${resetUrl}" style="color: #0078e8;">${resetUrl}</a></p>
                 <p>This link will expire in 6 minutes. If you didn't request a password reset, you can safely ignore this email.</p>
                 <p>Thank you for being a valued member of Bowl!</p>
-                <p>Warm regards,<br>Bowl Team</p>
+                <p>Warm regards,<br>The Bowl Team</p>
             </td>
         </tr>
         <tr>
