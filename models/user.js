@@ -61,9 +61,9 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const User =mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
     if (this.isModified('password') || this.isNew) {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
@@ -72,7 +72,7 @@ userSchema.pre('save', async function(next) {
 });
 
 // Method to set status to false if email_verified is false after 24 hours
-userSchema.methods.checkEmailVerification = function() {
+userSchema.methods.checkEmailVerification = function () {
     const user = this;
     if (!user.email_verified) {
         const createdAt = user._id.getTimestamp();
@@ -88,7 +88,7 @@ userSchema.methods.checkEmailVerification = function() {
 };
 
 // Method to send verification email
-userSchema.methods.sendVerificationEmail = async function() {
+userSchema.methods.sendVerificationEmail = async function () {
     const user = this;
     user.verificationCode = crypto.randomBytes(20).toString('hex');
     user.verificationCodeCreatedAt = new Date();
@@ -115,7 +115,7 @@ userSchema.methods.sendVerificationEmail = async function() {
 };
 
 // Method to send password reset email
-userSchema.methods.sendResetEmail = async function(resetToken) {
+userSchema.methods.sendResetEmail = async function (resetToken) {
     const user = this;
 
     const transporter = nodemailer.createTransport({
@@ -140,6 +140,13 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
 
 
 // Weekly report
+
+function formatCategoryName(category) {
+    return category
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
 
 async function generateWeeklyReport() {
     const oneWeekAgo = moment().subtract(7, 'days').toDate();
@@ -169,24 +176,25 @@ async function generateWeeklyReport() {
         const summary = generateSummaryString(report);
 
         // Send the email
-        await sendWeeklyEmail(user.email, summary);
+        await sendWeeklyEmail(user.email, user.user_name, summary);
     }
 }
 
 function generateSummaryString(report) {
-    let summary = 'Your Weekly Financial Summary:\n\n';
+    let summary = 'Your Weekly Financial Summary:<br><br>';
 
     for (const [type, categories] of Object.entries(report)) {
-        summary += `\n${type === 'income' ? 'Income Sources' : 'Expenses'}:\n`;
+        summary += `\n${type === 'income' ? 'Income Sources' : 'Expenses'}:<br>`;
         for (const [category, total] of Object.entries(categories)) {
-            summary += `- ${category}: ₹${total.toFixed(2)}\n`;
+            summary += `- ${formatCategoryName(category)}: ₹${total.toFixed(2)}<br>`;
         }
     }
 
     return summary;
 }
 
-async function sendWeeklyEmail(to, summary) {
+
+async function sendWeeklyEmail(to, userName, summary) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -195,16 +203,53 @@ async function sendWeeklyEmail(to, summary) {
         }
     });
 
+    const emailHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0; }
+                .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #f5f5f5; padding: 20px; }
+                .content { font-size: 16px; color: #333333; line-height: 1.6; text-align: left; }
+                .content p { margin: 10px 0; }
+                .footer { text-align: center; font-size: 12px; color: #888888; padding: 20px; }
+                .footer img { margin-top: 10px; height: 30px; }
+            </style>
+        </head>
+        <body>
+            <table class="container" align="center">
+                <tr>
+                    <td class="content">
+                        <p>Dear <strong>${userName}</strong>,</p>
+                        <p>Here’s your weekly financial report:</p>
+                        ${summary}
+                        <p>To view a detailed breakdown of your transactions, please log in to your Bowl account.</p>
+                        <p>We hope this report helps you manage your finances effectively. Thank you for using Bowl!</p>
+                        <p>Warm regards,<br>The Bowl Team</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="footer">
+                        <img src="https://bowl.grovixlab.com/logo/logo.png" alt="Bowl Logo">
+                        <p>© Bowl by Grovix Lab. All rights reserved.</p>
+                    </td>
+                </tr>
+            </table>
+        </body>
+        </html>
+    `;
+
     const mailOptions = {
         from: 'Bowl. <noreply.tikketu@gmail.com>',
         to,
         subject: 'Weekly Financial Summary',
-        text: summary
+        html: emailHtml
     };
 
     await transporter.sendMail(mailOptions);
 }
-
 
 cron.schedule('0 8 * * 0', async () => {
     console.log('Running weekly report job...');
