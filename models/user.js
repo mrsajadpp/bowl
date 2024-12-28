@@ -106,7 +106,53 @@ userSchema.methods.sendVerificationEmail = async function () {
         from: 'Bowl. <noreply.tikketu@gmail.com>',
         to: user.email,
         subject: 'Email Verification',
-        text: `Please verify your email by clicking the following link: ${verificationUrl}`
+        text: `Please verify your email by clicking the following link: ${verificationUrl}`,
+        html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - Bowl</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #f5f5f5; padding: 20px; }
+        .content { font-size: 16px; color: #333333; line-height: 1.6; text-align: left; }
+        .content p { margin: 10px 0; }
+        .footer { text-align: center; font-size: 12px; color: #888888; padding: 20px; }
+        .footer img { margin-top: 10px; height: 30px; }
+        .cta-btn {
+            background-color: #000;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 3px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <table class="container" align="center">
+        <tr>
+            <td class="content">
+                <p>Dear <strong>${user.user_name}</strong>,</p>
+                <p>Thank you for registering with Bowl! To complete your registration, we need you to verify your email address.</p>
+                <p>Please click the link below to verify your email:</p>
+                <p><a href="${verificationUrl}" class="cta-btn">Verify Email</a></p>
+                <p>If you did not register with us, please ignore this email.</p>
+                <p>Thank you for choosing Bowl!</p>
+                <p>Warm regards,<br>Bowl Team</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="footer">
+                <img src="https://bowl.grovixlab.com/logo/logo.png" alt="Bowl Logo">
+                <p>© Bowl. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+`
     };
 
     await transporter.sendMail(mailOptions);
