@@ -190,7 +190,7 @@ function generateSummaryString(report) {
         }
     }
 
-    return summary;
+    return summary + "<br>";
 }
 
 
