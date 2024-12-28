@@ -128,6 +128,11 @@ userSchema.methods.sendVerificationEmail = async function () {
             border-radius: 3px;
             display: inline-block;
         }
+        .note {
+            font-size: 14px;
+            color: #777777;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -138,6 +143,8 @@ userSchema.methods.sendVerificationEmail = async function () {
                 <p>Thank you for registering with Bowl! To complete your registration, we need you to verify your email address.</p>
                 <p>Please click the link below to verify your email:</p>
                 <p><a href="${verificationUrl}" class="cta-btn">Verify Email</a></p>
+                <p class="note">If the button above does not work, please copy and paste the following URL into your browser:</p>
+                <p class="note"><a href="${verificationUrl}" style="color: #0078e8;">${verificationUrl}</a></p>
                 <p>If you did not register with us, please ignore this email.</p>
                 <p>Thank you for choosing Bowl!</p>
                 <p>Warm regards,<br>Bowl Team</p>
@@ -198,6 +205,11 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
             border-radius: 3px;
             display: inline-block;
         }
+            .note {
+            font-size: 14px;
+            color: #777777;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -208,6 +220,8 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
                 <p>We received a request to reset the password for your account at Bowl.</p>
                 <p>Please click the link below to reset your password:</p>
                 <p><a href="${resetUrl}" class="cta-btn">Reset Password</a></p>
+                <p class="note">If the button above does not work, please copy and paste the following URL into your browser:</p>
+                <p class="note"><a href="${resetUrl}" style="color: #0078e8;">${resetUrl}</a></p>
                 <p>This link will expire in 6 minutes. If you didn't request a password reset, you can safely ignore this email.</p>
                 <p>Thank you for being a valued member of Bowl!</p>
                 <p>Warm regards,<br>Bowl Team</p>
