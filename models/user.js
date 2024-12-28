@@ -153,7 +153,7 @@ userSchema.methods.sendVerificationEmail = async function () {
         <tr>
             <td class="footer">
                 <img src="https://bowl.grovixlab.com/logo/logo.png" alt="Bowl Logo">
-                <p>© Bowl. All rights reserved.</p>
+                <p>© Bowl. by Grovix Lab. All rights reserved.</p>
             </td>
         </tr>
     </table>
@@ -230,7 +230,7 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
         <tr>
             <td class="footer">
                 <img src="https://bowl.grovixlab.com/logo/logo.png" alt="Bowl Logo">
-                <p>© Bowl. All rights reserved.</p>
+                <p>© Bowl. by Grovix Lab. All rights reserved.</p>
             </td>
         </tr>
     </table>
@@ -338,7 +338,7 @@ async function sendWeeklyEmail(to, userName, summary) {
                 <tr>
                     <td class="footer">
                         <img src="https://bowl.grovixlab.com/logo/logo.png" alt="Bowl Logo">
-                        <p>© Bowl by Grovix Lab. All rights reserved.</p>
+                        <p>© Bowl. by Grovix Lab. All rights reserved.</p>
                     </td>
                 </tr>
             </table>
