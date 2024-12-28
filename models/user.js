@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
+const Transaction = require('./transaction');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const cron = require('node-cron');
 
 const userSchema = new mongoose.Schema({
     user_name: {
@@ -57,6 +60,8 @@ const userSchema = new mongoose.Schema({
         type: Date
     }
 });
+
+const User =mongoose.model('User', userSchema);
 
 userSchema.pre('save', async function(next) {
     if (this.isModified('password') || this.isNew) {
@@ -133,4 +138,82 @@ userSchema.methods.sendResetEmail = async function(resetToken) {
     await transporter.sendMail(mailOptions);
 };
 
-module.exports = mongoose.model('User', userSchema);
+
+// Weekly report
+
+async function generateWeeklyReport() {
+    const oneWeekAgo = moment().subtract(7, 'days').toDate();
+    const users = await User.find({ email_verified: true });
+
+    for (const user of users) {
+        const transactions = await Transaction.find({
+            user_id: user._id,
+            transaction_date: { $gte: oneWeekAgo }
+        });
+
+        if (transactions.length === 0) continue;
+
+        // Categorize transactions
+        const report = transactions.reduce((acc, transaction) => {
+            if (!acc[transaction.transaction_type]) {
+                acc[transaction.transaction_type] = {};
+            }
+            if (!acc[transaction.transaction_type][transaction.category]) {
+                acc[transaction.transaction_type][transaction.category] = 0;
+            }
+            acc[transaction.transaction_type][transaction.category] += transaction.amount;
+            return acc;
+        }, {});
+
+        // Generate a summary
+        const summary = generateSummaryString(report);
+
+        // Send the email
+        await sendWeeklyEmail(user.email, summary);
+    }
+}
+
+function generateSummaryString(report) {
+    let summary = 'Your Weekly Financial Summary:\n\n';
+
+    for (const [type, categories] of Object.entries(report)) {
+        summary += `\n${type === 'income' ? 'Income Sources' : 'Expenses'}:\n`;
+        for (const [category, total] of Object.entries(categories)) {
+            summary += `- ${category}: ₹${total.toFixed(2)}\n`;
+        }
+    }
+
+    return summary;
+}
+
+async function sendWeeklyEmail(to, summary) {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'noreply.tikketu@gmail.com',
+            pass: process.env.APP_PASS
+        }
+    });
+
+    const mailOptions = {
+        from: 'Bowl. <noreply.tikketu@gmail.com>',
+        to,
+        subject: 'Weekly Financial Summary',
+        text: summary
+    };
+
+    await transporter.sendMail(mailOptions);
+}
+
+
+cron.schedule('0 8 * * 0', async () => {
+    console.log('Running weekly report job...');
+    try {
+        await generateWeeklyReport();
+        console.log('Weekly reports sent successfully!');
+    } catch (error) {
+        console.error('Error sending weekly reports:', error);
+    }
+});
+
+module.exports = User;
