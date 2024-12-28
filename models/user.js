@@ -61,8 +61,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const User = mongoose.model('User', userSchema);
-
 userSchema.pre('save', async function (next) {
     if (this.isModified('password') || this.isNew) {
         const salt = await bcrypt.genSalt(10);
@@ -138,6 +136,7 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
     await transporter.sendMail(mailOptions);
 };
 
+const User = mongoose.model('User', userSchema);
 
 // Weekly report
 
