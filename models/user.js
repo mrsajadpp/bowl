@@ -95,7 +95,7 @@ userSchema.methods.sendVerificationEmail = async function () {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'noreply.tikketu@gmail.com',
+            user: 'noreply.bowldot@gmail.com',
             pass: process.env.APP_PASS
         }
     });
@@ -103,7 +103,7 @@ userSchema.methods.sendVerificationEmail = async function () {
     const verificationUrl = `https://bowl.grovixlab.com/auth/verify-email?userId=${user._id}&verificationCode=${user.verificationCode}`;
 
     const mailOptions = {
-        from: 'Bowl. <noreply.tikketu@gmail.com>',
+        from: 'Bowl. <noreply.bowldot@gmail.com>',
         to: user.email,
         subject: 'Email Verification',
         text: `Please verify your email by clicking the following link: ${verificationUrl}`,
@@ -172,7 +172,7 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'noreply.tikketu@gmail.com',
+            user: 'noreply.bowldot@gmail.com',
             pass: process.env.APP_PASS
         }
     });
@@ -180,7 +180,7 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
     const resetUrl = `https://bowl.grovixlab.com/auth/reset-password/${resetToken}`;
 
     const mailOptions = {
-        from: 'Bowl. <noreply.tikketu@gmail.com>',
+        from: 'Bowl. <noreply.bowldot@gmail.com>',
         to: user.email,
         subject: 'Password Reset',
         text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}. This link will expire in 6 minutes.`,
@@ -303,7 +303,7 @@ async function sendWeeklyEmail(to, userName, summary) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'noreply.tikketu@gmail.com',
+            user: 'noreply.bowldot@gmail.com',
             pass: process.env.APP_PASS
         }
     });
@@ -347,7 +347,7 @@ async function sendWeeklyEmail(to, userName, summary) {
     `;
 
     const mailOptions = {
-        from: 'Bowl. <noreply.tikketu@gmail.com>',
+        from: 'Bowl. <noreply.bowldot@gmail.com>',
         to,
         subject: 'Weekly Financial Summary',
         html: emailHtml
