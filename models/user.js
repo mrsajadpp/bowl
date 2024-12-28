@@ -128,6 +128,10 @@ userSchema.methods.sendVerificationEmail = async function () {
             border-radius: 3px;
             display: inline-block;
         }
+            .cta-btn a {
+            text-decoration: none;
+            coor: #fff;
+            }
         .note {
             font-size: 14px;
             color: #777777;
@@ -205,6 +209,10 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
             border-radius: 3px;
             display: inline-block;
         }
+            .cta-btn a {
+            text-decoration: none;
+            coor: #fff;
+            }
             .note {
             font-size: 14px;
             color: #777777;
