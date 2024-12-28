@@ -130,7 +130,53 @@ userSchema.methods.sendResetEmail = async function (resetToken) {
         from: 'Bowl. <noreply.tikketu@gmail.com>',
         to: user.email,
         subject: 'Password Reset',
-        text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}. This link will expire in 6 minutes.`
+        text: `You requested a password reset. Please click the following link to reset your password: ${resetUrl}. This link will expire in 6 minutes.`,
+        html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset - Bowl</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #f5f5f5; padding: 20px; }
+        .content { font-size: 16px; color: #333333; line-height: 1.6; text-align: left; }
+        .content p { margin: 10px 0; }
+        .footer { text-align: center; font-size: 12px; color: #888888; padding: 20px; }
+        .footer img { margin-top: 10px; height: 30px; }
+        .cta-btn {
+            background-color: #000;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 3px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <table class="container" align="center">
+        <tr>
+            <td class="content">
+                <p>Dear <strong>${user.user_name}</strong>,</p>
+                <p>We received a request to reset the password for your account at Bowl.</p>
+                <p>Please click the link below to reset your password:</p>
+                <p><a href="${resetUrl}" class="cta-btn">Reset Password</a></p>
+                <p>This link will expire in 6 minutes. If you didn't request a password reset, you can safely ignore this email.</p>
+                <p>Thank you for being a valued member of Bowl!</p>
+                <p>Warm regards,<br>Bowl Team</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="footer">
+                <img src="https://bowl.grovixlab.com/logo/logo.png" alt="Bowl Logo">
+                <p>© Bowl. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+`
     };
 
     await transporter.sendMail(mailOptions);
